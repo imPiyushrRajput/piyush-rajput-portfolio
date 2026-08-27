@@ -5,7 +5,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
 import { profile, skillGroups, education } from "@/data/portfolio";
 
-const SITE_URL = "https://piyushrajput.netlify.app";
+const SITE_URL = "https://piyushrajput.me";
 const pageTitle = `${profile.name} — ${profile.role}`;
 const description =
   "Piyush Rajput is a Senior Frontend Engineer with 5+ years building large-scale React, Next.js, and TypeScript applications for enterprise clients including CPPIB and Lloyds Banking Group.";
