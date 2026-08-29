@@ -25,18 +25,23 @@ const Bar = styled(Container)`
 `;
 
 const Brand = styled.a`
-  font-weight: 700;
-  font-size: 1.05rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -0.04em;
   color: var(--text);
-  letter-spacing: -0.02em;
+  background: var(--bg-elevated);
 
   &:hover {
     text-decoration: none;
-    color: var(--accent-strong);
-  }
-
-  span {
-    color: var(--accent);
+    border-color: var(--text);
+    color: var(--text);
   }
 `;
 
@@ -173,14 +178,17 @@ export default function Navbar() {
     }
   };
 
-  const firstName = profile.name.split(" ")[0];
-  const lastName = profile.name.split(" ").slice(1).join(" ");
+  const initials = profile.name
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("");
 
   return (
     <Header $scrolled={scrolled}>
       <Bar as="div">
-        <Brand href="#top" aria-label={`${profile.name}, back to top`}>
-          {firstName} <span>{lastName}</span>
+        <Brand href="#top" aria-label={`${profile.name} — back to top`}>
+          {initials}
         </Brand>
 
         <Nav aria-label="Primary">

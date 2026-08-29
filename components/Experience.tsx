@@ -23,7 +23,7 @@ const Timeline = styled.ol`
   }
 
   @media (max-width: 600px) {
-    padding-left: 22px;
+    padding-left: 30px;
   }
 `;
 
@@ -47,7 +47,7 @@ const Item = styled(motion.li)`
     border: 3px solid var(--accent);
 
     @media (max-width: 600px) {
-      left: -22px;
+      left: -30px;
     }
   }
 `;
