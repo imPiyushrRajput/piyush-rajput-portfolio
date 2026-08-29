@@ -16,7 +16,7 @@ const GlobalStyles = createGlobalStyle`
     --border: #262626;
     --text: #fafafa;
     --text-muted: #a3a3a3;
-    --text-subtle: #6e6e6e;
+    --text-subtle: #8f8f8f; /* ~6:1 on --bg — WCAG AA */
     --accent: #ffffff;
     --accent-strong: #ffffff;
     --accent-contrast: #0a0a0a;
@@ -34,7 +34,7 @@ const GlobalStyles = createGlobalStyle`
     --border: #e5e5e5;
     --text: #0a0a0a;
     --text-muted: #525252;
-    --text-subtle: #8a8a8a;
+    --text-subtle: #6b6b6b; /* ~5.3:1 on white — WCAG AA */
     --accent: #0a0a0a;
     --accent-strong: #000000;
     --accent-contrast: #ffffff;
