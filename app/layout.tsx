@@ -8,7 +8,7 @@ import { profile, skillGroups, education } from "@/data/portfolio";
 const SITE_URL = "https://piyushrajput.me";
 const pageTitle = `${profile.name} — ${profile.role}`;
 const description =
-  "Piyush Rajput is a Senior Frontend Engineer with 5+ years building large-scale React, Next.js, and TypeScript applications for enterprise clients including CPPIB and Lloyds Banking Group.";
+  "Piyush Rajput is a Senior Frontend Engineer with nearly 6 years building large-scale React, TypeScript, and microfrontend applications for enterprise clients including Lloyds Banking Group and CPPIB.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: pageTitle,
     description:
-      "5+ years building fast, accessible, large-scale frontend applications with React, Next.js & TypeScript.",
+      "Nearly 6 years building fast, accessible, large-scale frontend applications with React, TypeScript & microfrontends.",
     url: "/",
     siteName: `${profile.name} — Portfolio`,
     type: "profile",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: pageTitle,
     description:
-      "Senior Frontend Engineer — React, Next.js & TypeScript. 5+ years shipping large-scale enterprise UIs.",
+      "Senior Frontend Engineer — React, TypeScript & microfrontends. Nearly 6 years shipping large-scale enterprise UIs.",
   },
   category: "technology",
   robots: {

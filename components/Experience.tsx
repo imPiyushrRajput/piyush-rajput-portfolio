@@ -129,8 +129,9 @@ export default function Experience() {
             <TypeText text="Experience" />
           </SectionTitle>
           <SectionIntro>
-            5+ years building large-scale frontend applications for enterprise
-            clients across banking, healthtech, and manufacturing.
+            Nearly 6 years building large-scale frontend applications for
+            enterprise clients across banking, fintech, healthcare, and
+            manufacturing.
           </SectionIntro>
         </Reveal>
 
