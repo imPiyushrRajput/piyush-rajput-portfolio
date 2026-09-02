@@ -49,7 +49,7 @@ export const experiences: Experience[] = [
     period: "Jul 2024 – Present",
     meta: "2 yrs 2 mos · Pune, India · Hybrid",
     points: [
-      "Working across two enterprise client engagements — CCP for Lloyds Banking Group and Knowledge Initiative (KI) for CPPIB — owning frontend delivery on both.",
+      "Delivered frontend across two enterprise engagements — Knowledge Initiative (KI) for CPPIB, then CCP for Lloyds Banking Group — owning frontend delivery on each.",
       "Built a shared page consumed by every journey on the CCP platform, delivered via Module Federation and integrated with each owning team.",
       "Deliver end-to-end on assigned journeys and features — UI, state management, API integration, and tests — working alongside backend, ML, and QE teams.",
     ],
