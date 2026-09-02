@@ -109,6 +109,7 @@ export const projects: Project[] = [
       "TypeScript",
       "Redux Toolkit",
       "RTK Query",
+      "Microfrontends",
       "Module Federation",
     ],
     featured: true,
