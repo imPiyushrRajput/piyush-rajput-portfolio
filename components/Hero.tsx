@@ -417,6 +417,15 @@ export default function Hero() {
             >
               LinkedIn ↗
             </Secondary>
+            <Secondary
+              href={profile.socials.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              GitHub ↗
+            </Secondary>
           </CtaRow>
         </Left>
 

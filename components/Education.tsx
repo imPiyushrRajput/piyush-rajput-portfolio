@@ -110,6 +110,7 @@ export default function Education() {
                 <h4>{edu.school}</h4>
                 <p>
                   {edu.degree} — {edu.field}
+                  {edu.detail ? ` · ${edu.detail}` : ""}
                 </p>
                 <span>{edu.period}</span>
               </EduItem>

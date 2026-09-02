@@ -49,6 +49,13 @@ export default function Footer() {
           >
             LinkedIn
           </a>
+          <a
+            href={profile.socials.github}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
           <a href={`mailto:${profile.email}`}>Email</a>
           <a href="#top">Back to top ↑</a>
         </Links>

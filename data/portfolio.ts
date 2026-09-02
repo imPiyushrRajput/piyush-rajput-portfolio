@@ -4,32 +4,33 @@ export const profile = {
   name: "Piyush Rajput",
   role: "Senior Frontend Engineer",
   headline:
-    "Senior Frontend Engineer @ Publicis Sapient — React / Next.js / TypeScript",
+    "Senior Frontend Engineer @ Publicis Sapient — React / TypeScript / Redux Toolkit",
   tagline:
     "I make the web feel fast, clean, and effortless — and maintainable for the engineers who come after me.",
   location: "Pune, Maharashtra, India",
   email: "piyushrajput1846@gmail.com",
   openToWork: true,
-  yearsExperience: "5+",
+  yearsExperience: "~6",
   resume: "/Piyush_Rajput_Resume.pdf",
   photo: "/piyush.jpg",
   socials: {
     linkedin: "https://www.linkedin.com/in/impiyushrrajput",
+    github: "https://github.com/imPiyushrRajput",
     portfolio: "https://piyushrajput.netlify.app",
   },
   summary: [
-    "I've spent the last 5+ years making the web feel fast, clean, and effortless for users — and maintainable for the engineers who come after me.",
-    "Currently a Senior Experience Engineer at Publicis Sapient, where I build large-scale frontend applications using React, TypeScript, and Next.js for enterprise clients like CPPIB and Lloyds Banking Group.",
-    "I'm known for writing tests first, building reusable component libraries and custom hooks, standing up React/Next.js projects from scratch (CI/CD included), and turning complex data into clear visualizations.",
-    "Currently exploring AI Engineering alongside my frontend work, with hands-on RAG/LLM integration experience from the CPPIB Knowledge Initiative project.",
+    "Senior Frontend Engineer with nearly 6 years of experience building enterprise web applications across banking, fintech, healthcare, and manufacturing.",
+    "Currently at Publicis Sapient, delivering frontend for Lloyds Banking Group's Colleague Channels Platform in a microfrontend architecture with React, TypeScript, and Redux Toolkit.",
+    "Previously built the frontend for a production RAG system at CPPIB — integrating LangChain, a vector DB, and AWS Athena into a streaming chat interface.",
+    "Along the way I've stood up frontends from scratch, restructured codebases into feature-based monorepos, built reusable component and forms libraries, and pushed Lighthouse scores from the 50s into the 90s.",
   ],
 };
 
 export const stats = [
-  { value: "5+", label: "Years of experience" },
-  { value: "15+", label: "Products shipped" },
-  { value: "3", label: "Enterprise clients" },
-  { value: "1L+", label: "Docs searchable via RAG UI" },
+  { value: "~6", label: "Years of experience" },
+  { value: "4", label: "Industries" },
+  { value: "18", label: "Projects shipped" },
+  { value: "100K+", label: "Docs searchable via RAG UI" },
 ];
 
 export type Experience = {
@@ -43,42 +44,45 @@ export type Experience = {
 
 export const experiences: Experience[] = [
   {
-    role: "Senior Experience Engineer",
+    role: "Senior Experience Engineer (Frontend)",
     company: "Publicis Sapient",
     period: "Jul 2024 – Present",
     meta: "2 yrs 2 mos · Pune, India · Hybrid",
     points: [
-      "Built the frontend for Knowledge Initiative (KI), a RAG-based Q&A platform for CPPIB, enabling natural language search across 1 lakh+ private documents.",
-      "Leading frontend modernization for Lloyds Banking Group's Colleague Channels Platform, migrating legacy systems to a microfrontend architecture used by thousands of internal bank employees.",
-      "Established BDD/TDD practices using Jest, Cucumber JS, and Playwright, reducing regression defects across UI layers.",
-      "Mentored junior engineers on testing and component design, reducing PR review cycles.",
+      "Working across two enterprise client engagements — CCP for Lloyds Banking Group and Knowledge Initiative (KI) for CPPIB — owning frontend delivery on both.",
+      "Built a shared page consumed by every journey on the CCP platform, delivered via Module Federation and integrated with each owning team.",
+      "Deliver end-to-end on assigned journeys and features — UI, state management, API integration, and tests — working alongside backend, ML, and QE teams.",
     ],
-    skills: ["React", "TypeScript", "Redux Toolkit", "Jest", "Microfrontends"],
+    skills: [
+      "React",
+      "TypeScript",
+      "Redux Toolkit",
+      "RTK Query",
+      "Module Federation",
+    ],
   },
   {
     role: "Software Engineer",
     company: "iBase-t",
     period: "Sep 2023 – Jul 2024",
-    meta: "11 mos · Pune, India · Remote",
+    meta: "10 mos · Pune, India",
     points: [
-      "Built and maintained the frontend for Solumina I-Series, a cloud-native Manufacturing Operations Platform used by Aerospace & Defense and medical device manufacturers.",
-      "Expanded unit test coverage across critical user workflows using React Testing Library and Jest, reducing production bugs in high-stakes operational UIs.",
-      "Collaborated in a fully remote team to ship frontend improvements on tight delivery cycles, consistently meeting sprint commitments.",
+      "Delivered frontend features for Solumina I-Series, iBase-t's manufacturing operations platform for Aerospace & Defense and medical device clients.",
+      "Restructured a large codebase into 40+ monorepo packages organized by feature module, so feature teams could build and deploy independently.",
     ],
-    skills: ["React", "Redux", "Jest", "React Testing Library"],
+    skills: ["React", "Redux", "Lerna.js", "Jest", "React Testing Library"],
   },
   {
-    role: "Software Development Engineer 1",
+    role: "Software Engineer",
     company: "ScaleReal Technologies",
     period: "Nov 2020 – Sep 2023",
-    meta: "2 yrs 11 mos · Pune, India · Remote",
+    meta: "2 yrs 10 mos · Pune, India",
     points: [
-      "Built and launched UIs for 6+ client products including TangoRx (healthtech), Lodgistics (hospitality SaaS), and DealSafe (fintech escrow platform).",
-      "Implemented complex data visualizations using Nivo graphs and AG Grid for admin dashboards, reducing time-to-insight for operations teams.",
-      "Set up 3+ React/Next.js projects from scratch, including GitHub Actions CI/CD, styled-components design systems, and Apollo Client GraphQL integrations.",
-      "Contributed to the open-source civic project JalgaonCoHelp during COVID-19, adding multilingual support and custom UI components used by thousands.",
+      "Delivered production frontends across three client products in hospitality, healthcare, and fintech — from greenfield setup through ongoing feature work.",
+      "Built responsive web applications following Atomic Design and TDD within Agile/Scrum teams.",
+      "Took Lighthouse/PageSpeed scores from the 50s into the 90s through lazy-loading, asset compression, and deferring non-critical JS.",
     ],
-    skills: ["Next.js", "TypeScript", "styled-components", "Jest", "GraphQL"],
+    skills: ["React", "TypeScript", "Redux", "Redux-Saga", "styled-components"],
   },
 ];
 
@@ -99,8 +103,14 @@ export const projects: Project[] = [
     period: "Jul 2025 – Present",
     org: "Publicis Sapient · Lloyds Banking Group",
     description:
-      "Leading frontend modernization of the internal platform used by branch staff, contact centre agents, and lending teams. Migrating legacy monolithic systems (MCA, PBS) to a microfrontend architecture with iframe-based sub-apps and secure token-based auth context.",
-    tech: ["React", "TypeScript", "Microfrontends", "Auth"],
+      "Building journeys on Lloyds Banking Group's internal platform used daily by branch staff and contact centre agents, where each journey ships as an independent microfrontend. Built a shared page used across every journey via Module Federation, owned the Profile, Make Payments, and Pending Payments journeys — including the multi-step payment flow with Review, Success, Error, Blocked, and Cancelled states — and handled state and data fetching with Redux Toolkit and RTK Query.",
+    tech: [
+      "React",
+      "TypeScript",
+      "Redux Toolkit",
+      "RTK Query",
+      "Module Federation",
+    ],
     featured: true,
   },
   {
@@ -108,8 +118,8 @@ export const projects: Project[] = [
     period: "Jan 2025 – Jul 2025",
     org: "Publicis Sapient · CPPIB",
     description:
-      "Built the frontend for a RAG-based internal Q&A platform that lets employees query 1 lakh+ private documents across isolated knowledge bases (Legal, Finance, HR) using natural language. Built the streaming chat UI, knowledge base selector, and admin dashboard, and integrated them with LangChain, a vector DB, and AWS Athena.",
-    tech: ["React", "LangChain", "VectorDB", "Streaming UI", "Athena"],
+      "Built a streaming chat UI for CPPIB that lets users query 100,000+ private documents across isolated knowledge bases (Legal, Finance, HR) in plain English — real-time token streaming, a keyboard-navigable knowledge-base picker (selector + '/' slash-command), conversation history with cursor-based pagination and react-window virtualization, export-to-PDF and share actions, and an admin dashboard. Integrated with RAG backend APIs (LangChain, vector DB, AWS Athena).",
+    tech: ["React", "TypeScript", "Redux", "Streaming UI", "RAG APIs"],
     featured: true,
   },
   {
@@ -117,7 +127,7 @@ export const projects: Project[] = [
     period: "Sep 2023 – Jul 2024",
     org: "iBase-t",
     description:
-      "Built frontend modules for a cloud-native Manufacturing Operations Platform serving Aerospace & Defense and medical device manufacturers, covering MES, SQM, MRO, and EQMS workflows.",
+      "Built frontend modules for iBase-t's cloud-native manufacturing platform across MES, SQM, MRO, and EQMS — including inspection-planning and non-conformance screens. Built an internal JSON-schema forms library that renders form fields from a schema (cutting repetitive form code across modules), and surfaced ERP/PLM-sourced records over REST with sync and error handling.",
     tech: ["React", "Redux", "Lerna.js", "Jest", "RTL"],
     featured: true,
   },
@@ -126,8 +136,8 @@ export const projects: Project[] = [
     period: "Nov 2022 – Apr 2023",
     org: "ScaleReal Technologies",
     description:
-      "A cloud-based hotel operations software that optimizes business processes and lowers expenses.",
-    tech: ["React", "Redux-Saga", "styled-components", "Material UI"],
+      "Built the Guest Connect messaging feature end-to-end — Twilio SMS plus Action Cable (WebSockets) so hotel staff saw guest messages arrive live without refreshing — and the task-management UI for assigning tasks, tracking status to completion, and handing off open items between shifts. Wrote unit and integration tests across both workflows.",
+    tech: ["React", "Redux", "Material UI", "Jest", "RTL"],
     link: "https://lodgistics.com",
     featured: true,
   },
@@ -136,8 +146,8 @@ export const projects: Project[] = [
     period: "May 2021 – Aug 2022",
     org: "ScaleReal Technologies",
     description:
-      "Platform for the US federal 340B drug price control program, allowing qualifying providers serving uninsured/low-income patients in rural communities to purchase outpatient drugs at discounted prices.",
-    tech: ["React", "TypeScript", "Redux-Saga", "AWS Lambda", "Postgres"],
+      "Built patient-management and pharmacy-workflow screens supporting US federal 340B compliance, integrating with a Kotlin/Postgres backend on AWS Lambda. Built the reporting dashboard with Nivo charts, wiring async data through Redux Sagas and 8+ custom hooks and HOCs, and worked across 20+ modules of the healthcare platform.",
+    tech: ["React", "TypeScript", "Redux-Saga", "styled-components", "Jest"],
     link: "https://www.tangorxsolutions.com",
     featured: true,
   },
@@ -146,8 +156,8 @@ export const projects: Project[] = [
     period: "Feb 2021 – May 2021",
     org: "ScaleReal Technologies",
     description:
-      "India's first platform to build trust between transacting entities via a secure, guaranteed escrow payment system.",
-    tech: ["React", "Django", "GraphQL", "AWS", "Docker"],
+      "Built the escrow-flow UI across the full deal lifecycle — funds in escrow, in transit, disputed, released — handling edge cases like frozen funds during disputes and inspection timers auto-releasing. Set up the frontend architecture from scratch (Webpack, Babel, routing, a Redux-Saga async layer scaling to 15+ modules) and adopted GraphQL to cut overfetching, integrating a Django/Postgres backend across web and Flutter.",
+    tech: ["React", "TypeScript", "GraphQL", "Redux-Saga", "styled-components"],
     link: "https://www.dealsafe.in",
     featured: true,
   },
@@ -268,6 +278,7 @@ export type EducationItem = {
   degree: string;
   field: string;
   period: string;
+  detail?: string;
 };
 
 export const education: EducationItem[] = [
@@ -276,6 +287,7 @@ export const education: EducationItem[] = [
     degree: "Bachelor of Engineering (BE)",
     field: "Information Technology",
     period: "2018 – 2021",
+    detail: "CGPA 8.45 / 10",
   },
   {
     school: "Government Polytechnic Jalgaon",
@@ -296,13 +308,13 @@ export const certifications: Certification[] = [
   {
     title: "AI Trends — Emerging Technologies: The Very Latest",
     issuer: "Publicis Groupe",
-    date: "Jan 2025",
+    date: "Mar 2025",
     link: "https://marcel.ai/plai?certID=61945",
   },
   {
     title: "Using Gen AI — Text",
     issuer: "Publicis Groupe",
-    date: "Jan 2025",
+    date: "Feb 2025",
     link: "https://marcel.ai/plai?certID=58968",
   },
   {
@@ -333,49 +345,77 @@ export const certifications: Certification[] = [
 
 export const skillGroups: { title: string; items: string[] }[] = [
   {
-    title: "Core",
-    items: ["React.js", "Next.js", "TypeScript", "JavaScript", "HTML5", "CSS"],
+    title: "Languages",
+    items: ["HTML", "CSS", "JavaScript", "TypeScript"],
   },
   {
-    title: "State & Data",
+    title: "Libraries & Frameworks",
     items: [
+      "React.js",
+      "Next.js",
+      "React Native",
+      "Redux",
       "Redux Toolkit",
-      "Redux Saga",
-      "REST APIs",
-      "GraphQL",
-      "Apollo Client",
-      "JSON",
+      "Jest",
+      "React Testing Library",
+      "styled-components",
+      "Material UI",
+    ],
+  },
+  {
+    title: "Architecture",
+    items: [
+      "Microfrontends",
+      "Module Federation",
+      "Monorepo",
+      "Atomic Design",
+      "Component Libraries",
+      "Responsive Design",
     ],
   },
   {
     title: "Testing",
     items: [
-      "Jest",
-      "React Testing Library",
-      "Playwright",
-      "Cucumber (BDD)",
+      "Unit Testing",
+      "Integration Testing",
       "TDD",
+      "Playwright",
+      "Cucumber",
     ],
   },
   {
-    title: "Architecture & Tooling",
+    title: "Performance",
     items: [
-      "Microfrontends",
-      "styled-components",
+      "Code Splitting",
+      "Bundle Optimization",
+      "Lighthouse",
+      "PageSpeed",
+      "Cross-browser Compatibility",
+    ],
+  },
+  {
+    title: "APIs & Integration",
+    items: ["REST APIs", "GraphQL", "WebSockets"],
+  },
+  {
+    title: "RAG / AI",
+    items: ["LangChain", "Vector DBs", "AWS Athena", "Prompt Engineering"],
+  },
+  {
+    title: "Tools & Workflow",
+    items: [
+      "Git",
+      "GitHub",
+      "GitHub Actions CI/CD",
       "Webpack",
       "Babel",
-      "Lerna.js",
-      "Git / GitHub",
-      "CI/CD",
+      "Agile",
+      "Scrum",
     ],
   },
   {
-    title: "Data Viz & UI",
-    items: ["Nivo Charts", "AG Grid", "Material UI", "Responsive Design", "UI/UX"],
-  },
-  {
-    title: "AI Engineering",
-    items: ["LangChain", "VectorDB", "RAG", "LLM Integration", "Amazon Athena"],
+    title: "Databases",
+    items: ["MongoDB", "Firebase Firestore"],
   },
 ];
 

@@ -74,7 +74,11 @@ const personJsonLd = {
   email: `mailto:${profile.email}`,
   url: SITE_URL,
   image: `${SITE_URL}${profile.photo}`,
-  sameAs: [profile.socials.linkedin, profile.socials.portfolio],
+  sameAs: [
+    profile.socials.linkedin,
+    profile.socials.github,
+    profile.socials.portfolio,
+  ],
   worksFor: { "@type": "Organization", name: "Publicis Sapient" },
   address: {
     "@type": "PostalAddress",
