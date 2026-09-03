@@ -45,12 +45,28 @@ export const metadata: Metadata = {
     siteName: `${profile.name} — Portfolio`,
     type: "profile",
     locale: "en_US",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: `${profile.name} — ${profile.role}`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: pageTitle,
     description:
       "Senior Frontend Engineer — React, TypeScript & microfrontends. Nearly 6 years shipping large-scale enterprise UIs.",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: `${profile.name} — ${profile.role}`,
+      },
+    ],
   },
   category: "technology",
   robots: {
