@@ -45,20 +45,26 @@ const Count = styled.span`
   background: color-mix(in srgb, currentColor 16%, transparent);
 `;
 
+/* Masonry via CSS multi-column: cards keep their natural height and pack
+   vertically, so shorter cards don't leave whitespace under taller ones. */
 const Grid = styled.ul`
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
+  column-width: 320px;
+  column-gap: 20px;
 
   @media (max-width: 520px) {
-    grid-template-columns: 1fr;
+    column-width: auto;
+    columns: 1;
   }
 `;
 
 const ProjectCard = styled(motion.li)`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  margin: 0 0 20px;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 14px;
