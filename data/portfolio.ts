@@ -11,7 +11,7 @@ export const profile = {
   email: "piyushrajput1846@gmail.com",
   openToWork: true,
   yearsExperience: "~6",
-  resume: "/Piyush_Rajput_Resume.pdf",
+  resume: "/Piyush_Rajput_Resume.pdf?v=941d7951",
   photo: "/piyush.jpg",
   socials: {
     linkedin: "https://www.linkedin.com/in/impiyushrrajput",
