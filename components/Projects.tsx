@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { motion, useReducedMotion } from "framer-motion";
 import { Container, Section, SectionTitle, SectionIntro, Chip } from "./primitives";
 import Reveal from "./Reveal";
 import TypeText from "./TypeText";
-import { projects } from "@/data/portfolio";
+import { projects, type Project } from "@/data/portfolio";
 
 const Toggle = styled.div`
   display: inline-flex;
@@ -45,26 +45,28 @@ const Count = styled.span`
   background: color-mix(in srgb, currentColor 16%, transparent);
 `;
 
-/* Masonry via CSS multi-column: cards keep their natural height and pack
-   vertically, so shorter cards don't leave whitespace under taller ones. */
-const Grid = styled.ul`
-  list-style: none;
-  column-width: 320px;
-  column-gap: 20px;
+/* Masonry: fixed-width columns filled round-robin, so cards read left-to-right
+   (row-major) while keeping their natural heights — no equal-row whitespace. */
+const Masonry = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+`;
 
-  @media (max-width: 520px) {
-    column-width: auto;
-    columns: 1;
-  }
+const MasonryCol = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 const ProjectCard = styled(motion.li)`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  margin: 0 0 20px;
-  break-inside: avoid;
-  -webkit-column-break-inside: avoid;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -143,14 +145,31 @@ export default function Projects() {
     { key: "all", label: "All", count: projects.length },
   ];
 
-  const item = {
-    hidden: { opacity: 0, y: reduce ? 0 : 18 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-    },
-  };
+  // Responsive column count for the masonry.
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [cols, setCols] = useState(3);
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const compute = () => {
+      const colW = 320;
+      const gap = 20;
+      setCols(Math.max(1, Math.floor((el.clientWidth + gap) / (colW + gap))));
+    };
+    compute();
+    const ro = new ResizeObserver(compute);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Distribute round-robin so cards read left-to-right, top-to-bottom.
+  const columns: { project: Project; index: number }[][] = Array.from(
+    { length: cols },
+    () => []
+  );
+  visible.forEach((project, index) => {
+    columns[index % cols].push({ project, index });
+  });
 
   return (
     <Section id="projects">
@@ -179,47 +198,58 @@ export default function Projects() {
           ))}
         </Toggle>
 
-        <Grid
-          as={motion.ul}
-          key={filter}
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.06 } },
-          }}
-        >
-          {visible.map((project) => (
-            <ProjectCard
-              key={project.name}
-              variants={item}
-              whileHover={reduce ? undefined : { y: -5 }}
-              transition={{ type: "spring", stiffness: 300, damping: 24 }}
-            >
-              <CardTop>
-                <Name>{project.name}</Name>
-                {project.link && (
-                  <Link
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Visit ${project.name} (opens in new tab)`}
-                  >
-                    Visit ↗
-                  </Link>
-                )}
-              </CardTop>
-              {project.org && <Org>{project.org}</Org>}
-              <Period>{project.period}</Period>
-              <Desc>{project.description}</Desc>
-              <Tech>
-                {project.tech.map((t) => (
-                  <Chip key={t}>{t}</Chip>
-                ))}
-              </Tech>
-            </ProjectCard>
+        <Masonry ref={wrapRef}>
+          {columns.map((col, ci) => (
+            <MasonryCol key={ci}>
+              {col.map(({ project, index }) => (
+                <ProjectCard
+                  key={`${filter}-${project.name}`}
+                  initial={{ opacity: 0, y: reduce ? 0 : 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.45,
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: reduce ? 0 : Math.min(index * 0.05, 0.4),
+                  }}
+                  whileHover={
+                    reduce
+                      ? undefined
+                      : {
+                          y: -5,
+                          transition: {
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 24,
+                          },
+                        }
+                  }
+                >
+                  <CardTop>
+                    <Name>{project.name}</Name>
+                    {project.link && (
+                      <Link
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Visit ${project.name} (opens in new tab)`}
+                      >
+                        Visit ↗
+                      </Link>
+                    )}
+                  </CardTop>
+                  {project.org && <Org>{project.org}</Org>}
+                  <Period>{project.period}</Period>
+                  <Desc>{project.description}</Desc>
+                  <Tech>
+                    {project.tech.map((t) => (
+                      <Chip key={t}>{t}</Chip>
+                    ))}
+                  </Tech>
+                </ProjectCard>
+              ))}
+            </MasonryCol>
           ))}
-        </Grid>
+        </Masonry>
       </Container>
     </Section>
   );
