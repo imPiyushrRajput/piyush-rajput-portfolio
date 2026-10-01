@@ -1,6 +1,8 @@
 "use client";
 
 import styled from "styled-components";
+import { FaLinkedinIn } from "react-icons/fa6";
+import { FiMail, FiDownload } from "react-icons/fi";
 import { Container, Section } from "./primitives";
 import Reveal from "./Reveal";
 import TypeText from "./TypeText";
@@ -38,6 +40,9 @@ const Row = styled.div`
 `;
 
 const Primary = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: var(--accent);
   color: var(--accent-contrast);
   font-weight: 600;
@@ -52,6 +57,9 @@ const Primary = styled.a`
 `;
 
 const Secondary = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: var(--text);
   font-weight: 600;
   padding: 13px 26px;
@@ -79,21 +87,26 @@ export default function Contact() {
             fit, I'd love to hear from you.
           </Sub>
           <Row>
-            <Primary href={`mailto:${profile.email}`}>Email me</Primary>
+            <Primary href={`mailto:${profile.email}`}>
+              <FiMail aria-hidden size={16} />
+              Email me
+            </Primary>
             <Secondary
               href={profile.resume}
               target="_blank"
               rel="noopener noreferrer"
               download
             >
-              Download résumé ↓
+              <FiDownload aria-hidden size={16} />
+              Download résumé
             </Secondary>
             <Secondary
               href={profile.socials.linkedin}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Connect on LinkedIn ↗
+              <FaLinkedinIn aria-hidden size={16} />
+              Connect on LinkedIn
             </Secondary>
           </Row>
         </Panel>

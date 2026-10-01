@@ -20,6 +20,8 @@ export default function SmoothScroll() {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
+    // Expose so other components (e.g. the mobile menu) can lock/unlock scroll.
+    (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
 
     let rafId = 0;
     const raf = (time: number) => {
@@ -39,7 +41,9 @@ export default function SmoothScroll() {
       const target = document.querySelector(id);
       if (!target) return;
       e.preventDefault();
-      lenis.scrollTo(target as HTMLElement, { offset: -80 });
+      // Resume in case scrolling was locked (e.g. mobile menu was open).
+      lenis.start();
+      lenis.scrollTo(target as HTMLElement, { offset: -80, force: true });
       history.replaceState(null, "", id);
     };
 
@@ -49,6 +53,7 @@ export default function SmoothScroll() {
       cancelAnimationFrame(rafId);
       document.removeEventListener("click", onClick);
       lenis.destroy();
+      delete (window as unknown as { __lenis?: Lenis }).__lenis;
     };
   }, []);
 

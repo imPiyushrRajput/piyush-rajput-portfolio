@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Container, Section, SectionTitle } from "./primitives";
 import Reveal from "./Reveal";
 import TypeText from "./TypeText";
+import Emphasize from "./Emphasize";
 import { profile, languages } from "@/data/portfolio";
 
 const Grid = styled.div`
@@ -86,7 +87,9 @@ export default function About() {
         <Grid>
           <Prose as={Reveal}>
             {profile.summary.map((para, i) => (
-              <p key={i}>{para}</p>
+              <p key={i}>
+                <Emphasize text={para} />
+              </p>
             ))}
           </Prose>
 

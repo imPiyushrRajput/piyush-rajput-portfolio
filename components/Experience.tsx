@@ -5,6 +5,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Container, Section, SectionTitle, SectionIntro, Chip } from "./primitives";
 import Reveal from "./Reveal";
 import TypeText from "./TypeText";
+import TechIcon from "./TechIcon";
+import Emphasize from "./Emphasize";
+import CompanyLogo from "./CompanyLogo";
 import { experiences } from "@/data/portfolio";
 
 const Timeline = styled.ol`
@@ -55,19 +58,13 @@ const Item = styled(motion.li)`
 const Head = styled.div`
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 4px 16px;
 `;
 
 const RoleName = styled.h3`
   font-size: 1.2rem;
-`;
-
-const Company = styled.p`
-  color: var(--accent-strong);
-  font-weight: 600;
-  margin: 2px 0 2px;
 `;
 
 const Period = styled.span`
@@ -148,20 +145,25 @@ export default function Experience() {
             <Item key={`${exp.company}-${exp.role}`} variants={item}>
               <Head>
                 <div>
+                  <CompanyLogo company={exp.company} />
                   <RoleName>{exp.role}</RoleName>
-                  <Company>{exp.company}</Company>
                 </div>
                 <Period>{exp.period}</Period>
               </Head>
               <Meta>{exp.meta}</Meta>
               <Points>
                 {exp.points.map((point, i) => (
-                  <li key={i}>{point}</li>
+                  <li key={i}>
+                    <Emphasize text={point} />
+                  </li>
                 ))}
               </Points>
               <Skills>
                 {exp.skills.map((skill) => (
-                  <Chip key={skill}>{skill}</Chip>
+                  <Chip key={skill}>
+                    <TechIcon name={skill} />
+                    {skill}
+                  </Chip>
                 ))}
               </Skills>
             </Item>

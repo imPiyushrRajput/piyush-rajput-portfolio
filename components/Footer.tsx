@@ -1,6 +1,8 @@
 "use client";
 
 import styled from "styled-components";
+import { FaLinkedinIn, FaGithub } from "react-icons/fa6";
+import { FiMail, FiArrowUp } from "react-icons/fi";
 import { Container } from "./primitives";
 import { profile } from "@/data/portfolio";
 
@@ -25,12 +27,24 @@ const Copy = styled.p`
 
 const Links = styled.div`
   display: flex;
+  align-items: center;
   gap: 18px;
 
   a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: var(--text-muted);
     font-size: 0.88rem;
     font-weight: 500;
+  }
+
+  a:hover {
+    color: var(--text);
+  }
+
+  svg {
+    flex-shrink: 0;
   }
 `;
 
@@ -47,6 +61,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
+            <FaLinkedinIn aria-hidden size={14} />
             LinkedIn
           </a>
           <a
@@ -54,10 +69,17 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
+            <FaGithub aria-hidden size={14} />
             GitHub
           </a>
-          <a href={`mailto:${profile.email}`}>Email</a>
-          <a href="#top">Back to top ↑</a>
+          <a href={`mailto:${profile.email}`}>
+            <FiMail aria-hidden size={14} />
+            Email
+          </a>
+          <a href="#top">
+            <FiArrowUp aria-hidden size={14} />
+            Back to top
+          </a>
         </Links>
       </Inner>
     </Wrap>

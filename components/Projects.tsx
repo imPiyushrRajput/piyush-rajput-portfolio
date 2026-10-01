@@ -6,6 +6,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Container, Section, SectionTitle, SectionIntro, Chip } from "./primitives";
 import Reveal from "./Reveal";
 import TypeText from "./TypeText";
+import TechIcon from "./TechIcon";
+import Emphasize from "./Emphasize";
+import CompanyLogo, { companyFromOrg } from "./CompanyLogo";
 import { projects, type Project } from "@/data/portfolio";
 
 const Toggle = styled.div`
@@ -99,6 +102,10 @@ const Link = styled.a`
 `;
 
 const Org = styled.p`
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
   color: var(--accent-strong);
   font-size: 0.85rem;
   font-weight: 600;
@@ -237,12 +244,34 @@ export default function Projects() {
                       </Link>
                     )}
                   </CardTop>
-                  {project.org && <Org>{project.org}</Org>}
+                  {project.org &&
+                    (() => {
+                      const company = companyFromOrg(project.org);
+                      if (!company) return <Org>{project.org}</Org>;
+                      const rest = project
+                        .org!.replace(
+                          /publicis sapient|ibase-?t|scalereal technologies/i,
+                          ""
+                        )
+                        .replace(/^[\s·—-]+/, "")
+                        .trim();
+                      return (
+                        <Org>
+                          <CompanyLogo company={company} inline />
+                          {rest && <span>· {rest}</span>}
+                        </Org>
+                      );
+                    })()}
                   <Period>{project.period}</Period>
-                  <Desc>{project.description}</Desc>
+                  <Desc>
+                    <Emphasize text={project.description} />
+                  </Desc>
                   <Tech>
                     {project.tech.map((t) => (
-                      <Chip key={t}>{t}</Chip>
+                      <Chip key={t}>
+                        <TechIcon name={t} />
+                        {t}
+                      </Chip>
                     ))}
                   </Tech>
                 </ProjectCard>

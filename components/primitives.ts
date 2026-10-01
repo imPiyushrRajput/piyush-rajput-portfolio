@@ -46,15 +46,22 @@ export const SectionIntro = styled.p`
 `;
 
 export const Chip = styled.span`
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: var(--chip-bg);
   color: var(--text-muted);
   border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 4px 12px;
+  padding: 4px 11px;
   font-size: 0.82rem;
   font-weight: 500;
   white-space: nowrap;
+
+  svg {
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
 `;
 
 export const Card = styled.div`

@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Container, Section, SectionTitle, SectionIntro } from "./primitives";
 import Reveal from "./Reveal";
 import TypeText from "./TypeText";
+import TechIcon from "./TechIcon";
 import { skillGroups } from "@/data/portfolio";
 
 const Grid = styled.div`
@@ -40,6 +41,9 @@ const List = styled.ul`
   gap: 8px;
 
   li {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
     background: var(--chip-bg);
     border: 1px solid var(--border);
     color: var(--text);
@@ -47,6 +51,11 @@ const List = styled.ul`
     padding: 6px 12px;
     font-size: 0.9rem;
     font-weight: 500;
+  }
+
+  li svg {
+    flex-shrink: 0;
+    opacity: 0.85;
   }
 `;
 
@@ -88,7 +97,10 @@ export default function Skills() {
               <GroupTitle>{group.title}</GroupTitle>
               <List>
                 {group.items.map((skill) => (
-                  <li key={skill}>{skill}</li>
+                  <li key={skill}>
+                    <TechIcon name={skill} size={15} />
+                    {skill}
+                  </li>
                 ))}
               </List>
             </Group>

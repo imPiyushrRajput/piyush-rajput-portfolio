@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   motion,
@@ -10,6 +10,8 @@ import {
   useTransform,
   useMotionValue,
 } from "framer-motion";
+import { FaLinkedinIn, FaGithub } from "react-icons/fa6";
+import { FiDownload } from "react-icons/fi";
 import { Container } from "./primitives";
 import { profile, stats } from "@/data/portfolio";
 
@@ -202,23 +204,74 @@ const Secondary = styled(motion.a)`
 `;
 
 /* ---- Portrait ---- */
-const PortraitWrap = styled.div`
+const PortraitWrap = styled(motion.div)`
   justify-self: center;
   position: relative;
   width: min(320px, 78vw);
   aspect-ratio: 1;
 `;
 
-const Ring = styled(motion.div)`
+/* Offset dashed frame sitting behind the portrait for depth. */
+const Frame = styled.div`
   position: absolute;
-  inset: -14px;
-  border-radius: 50%;
+  inset: 0;
+  transform: translate(18px, 18px);
   border: 1px dashed var(--border);
+  border-radius: 24px;
+  z-index: 0;
+`;
+
+/* Slowly rotating dashed ring accent tucked behind a corner. */
+const RingAccent = styled(motion.div)`
+  position: absolute;
+  width: 92px;
+  height: 92px;
+  right: -26px;
+  top: -26px;
+  border-radius: 50%;
+  border: 1px dashed var(--text-subtle);
+  opacity: 0.6;
+  z-index: 0;
+`;
+
+/* L-shaped corner brackets that frame the portrait. */
+const Corner = styled.span`
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--text);
+  z-index: 2;
+  pointer-events: none;
+
+  &[data-pos="tl"] {
+    top: -9px;
+    left: -9px;
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 10px;
+  }
+  &[data-pos="br"] {
+    bottom: -9px;
+    right: -9px;
+    border-left: none;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+  }
+`;
+
+/* Small floating "+" accents. */
+const Plus = styled(motion.span)`
+  position: absolute;
+  color: var(--text-subtle);
+  font-size: 1.1rem;
+  line-height: 1;
+  z-index: 2;
 `;
 
 const Portrait = styled.div`
   position: absolute;
   inset: 0;
+  z-index: 1;
   border-radius: 24px;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -299,6 +352,14 @@ export default function Hero() {
   const [imgError, setImgError] = useState(false);
   const [glowOn, setGlowOn] = useState(false);
   const wrapRef = useRef<HTMLElement>(null);
+  const photoRef = useRef<HTMLImageElement>(null);
+
+  // Catch a photo that 404'd before hydration (onError wouldn't re-fire), so the
+  // monogram placeholder shows until a real portrait is added.
+  useEffect(() => {
+    const el = photoRef.current;
+    if (el && el.complete && el.naturalWidth === 0) setImgError(true);
+  }, []);
 
   // Scroll: the grid drifts downward and fades as the hero leaves the viewport.
   const { scrollYProgress } = useScroll({
@@ -399,7 +460,8 @@ export default function Hero() {
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
             >
-              Download résumé ↓
+              <FiDownload aria-hidden size={15} />
+              Download résumé
             </Secondary>
             <Secondary
               href="#contact"
@@ -415,7 +477,8 @@ export default function Hero() {
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
             >
-              LinkedIn ↗
+              <FaLinkedinIn aria-hidden size={15} />
+              LinkedIn
             </Secondary>
             <Secondary
               href={profile.socials.github}
@@ -424,7 +487,8 @@ export default function Hero() {
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
             >
-              GitHub ↗
+              <FaGithub aria-hidden size={15} />
+              GitHub
             </Secondary>
           </CtaRow>
         </Left>
@@ -434,16 +498,21 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
         >
-          <PortraitWrap>
-            <Ring
+          <PortraitWrap
+            animate={reduce ? {} : { y: [0, -10, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Frame aria-hidden="true" />
+            <RingAccent
               aria-hidden="true"
               animate={reduce ? {} : { rotate: 360 }}
-              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
             />
             <Portrait>
               {!imgError ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
+                  ref={photoRef}
                   src={profile.photo}
                   alt={`Portrait of ${profile.name}`}
                   onError={() => setImgError(true)}
@@ -453,6 +522,24 @@ export default function Hero() {
                 <Monogram aria-label={profile.name}>{initials}</Monogram>
               )}
             </Portrait>
+            <Corner data-pos="tl" aria-hidden="true" />
+            <Corner data-pos="br" aria-hidden="true" />
+            <Plus
+              aria-hidden="true"
+              style={{ bottom: -26, left: 24 }}
+              animate={reduce ? {} : { opacity: [0.3, 0.8, 0.3] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            >
+              +
+            </Plus>
+            <Plus
+              aria-hidden="true"
+              style={{ top: 10, right: -30 }}
+              animate={reduce ? {} : { opacity: [0.8, 0.3, 0.8] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+              +
+            </Plus>
           </PortraitWrap>
         </motion.div>
       </Inner>
