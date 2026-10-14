@@ -41,9 +41,32 @@ export default function SmoothScroll() {
       const target = document.querySelector(id);
       if (!target) return;
       e.preventDefault();
-      // Resume in case scrolling was locked (e.g. mobile menu was open).
-      lenis.start();
-      lenis.scrollTo(target as HTMLElement, { offset: -80, force: true });
+
+      // Offset so the target lands just below the sticky header.
+      const HEADER_OFFSET = 80;
+
+      // If the mobile menu is open the page is scroll-locked (overflow:hidden)
+      // and the header is position:fixed, which shifts every section up by the
+      // header height — so wait (via rAF) until the lock is released and the
+      // layout has settled before measuring. Then compute the absolute target
+      // position ourselves and pass a NUMBER to Lenis: Lenis's element-target
+      // resolution lands short here, but a numeric target is reliable.
+      const scrollWhenReady = (attempts = 0) => {
+        const locked =
+          document.documentElement.style.overflow === "hidden" ||
+          document.body.style.overflow === "hidden";
+        if (locked && attempts < 30) {
+          requestAnimationFrame(() => scrollWhenReady(attempts + 1));
+          return;
+        }
+        lenis.start();
+        const top =
+          (target as HTMLElement).getBoundingClientRect().top +
+          window.scrollY -
+          HEADER_OFFSET;
+        lenis.scrollTo(Math.max(0, Math.round(top)), { force: true });
+      };
+      scrollWhenReady();
       history.replaceState(null, "", id);
     };
 

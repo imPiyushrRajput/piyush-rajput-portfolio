@@ -28,12 +28,14 @@ const Copy = styled.p`
 const Links = styled.div`
   display: flex;
   align-items: center;
-  gap: 18px;
+  flex-wrap: wrap;
+  gap: 10px 18px;
 
   a {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
     color: var(--text-muted);
     font-size: 0.88rem;
     font-weight: 500;

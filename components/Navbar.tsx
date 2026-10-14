@@ -6,15 +6,25 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Container } from "./primitives";
 import { navLinks, profile } from "@/data/portfolio";
 
-const Header = styled.header<{ $scrolled: boolean }>`
-  position: sticky;
+const Header = styled.header<{ $scrolled: boolean; $menuOpen: boolean }>`
+  /* While the mobile menu is open the page is scroll-locked with
+     overflow:hidden, which breaks position:sticky — so pin the header with
+     position:fixed instead to keep it (and the close button) at the top. */
+  position: ${(p) => (p.$menuOpen ? "fixed" : "sticky")};
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 50;
   background: ${(p) =>
-    p.$scrolled ? "color-mix(in srgb, var(--bg) 88%, transparent)" : "transparent"};
-  backdrop-filter: ${(p) => (p.$scrolled ? "blur(10px)" : "none")};
+    p.$menuOpen
+      ? "var(--bg)"
+      : p.$scrolled
+      ? "color-mix(in srgb, var(--bg) 88%, transparent)"
+      : "transparent"};
+  backdrop-filter: ${(p) =>
+    p.$scrolled && !p.$menuOpen ? "blur(10px)" : "none"};
   border-bottom: 1px solid
-    ${(p) => (p.$scrolled ? "var(--border)" : "transparent")};
+    ${(p) => (p.$scrolled || p.$menuOpen ? "var(--border)" : "transparent")};
   transition: background 0.25s ease, border-color 0.25s ease;
 `;
 
@@ -425,7 +435,7 @@ export default function Navbar() {
 
   return (
     <>
-    <Header $scrolled={scrolled}>
+    <Header $scrolled={scrolled} $menuOpen={menuOpen}>
       <Bar as="div">
         <Brand href="#top" aria-label={`${profile.name} — back to top`}>
           {initials}
