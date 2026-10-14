@@ -55,6 +55,9 @@ export default function SoundEffects() {
       if (!el) return;
       // Elements can opt into a sound that matches their animation via data-sfx.
       switch (el.dataset.sfx) {
+        case "none":
+          // Handled by the element itself (e.g. the theme toggle).
+          break;
         case "slide":
           playSlide();
           break;

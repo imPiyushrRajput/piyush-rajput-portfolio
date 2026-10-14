@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { FiVolume2, FiVolumeX } from "react-icons/fi";
 import { Container } from "./primitives";
-import { setSoundEnabled, primeAudio, playClick } from "@/lib/sfx";
+import { setSoundEnabled, primeAudio, playClick, playTheme } from "@/lib/sfx";
 import { navLinks, profile } from "@/data/portfolio";
 
 const Header = styled.header<{ $scrolled: boolean; $menuOpen: boolean }>`
@@ -406,6 +406,10 @@ export default function Navbar() {
 
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
     const next = theme === "dark" ? "light" : "dark";
+    // Only the theme-switch sweep plays here — the generic hover/click sounds
+    // are suppressed on this button via data-sfx="none" / data-sfx-hover="off".
+    primeAudio();
+    playTheme(next === "light");
     const apply = () => {
       setTheme(next);
       document.documentElement.setAttribute("data-theme", next);
@@ -516,6 +520,8 @@ export default function Navbar() {
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
             title="Toggle theme"
+            data-sfx="none"
+            data-sfx-hover="off"
           >
             {theme === "dark" ? "☀️" : "🌙"}
           </IconButton>
