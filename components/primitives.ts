@@ -13,6 +13,19 @@ export const Container = styled.div`
   }
 `;
 
+// Editorial mono micro-label (uppercase, wide tracking) — e.g. "01 / SELECTED WORK".
+export const MonoLabel = styled.span`
+  font-family: var(--font-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-subtle);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+`;
+
 export const Section = styled.section`
   padding: 88px 0;
   scroll-margin-top: 84px;

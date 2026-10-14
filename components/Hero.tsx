@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import {
   motion,
@@ -11,17 +11,17 @@ import {
   useMotionValue,
 } from "framer-motion";
 import { FaLinkedinIn, FaGithub } from "react-icons/fa6";
-import { FiDownload } from "react-icons/fi";
-import { Container } from "./primitives";
+import { FiDownload, FiMail, FiArrowDown, FiArrowUpRight } from "react-icons/fi";
+import { Container, MonoLabel } from "./primitives";
 import { profile, stats } from "@/data/portfolio";
 
 const Wrap = styled.section`
   position: relative;
-  padding: 96px 0 72px;
+  padding: 72px 0 64px;
   overflow: hidden;
 
   @media (max-width: 600px) {
-    padding: 56px 0 44px;
+    padding: 44px 0 40px;
   }
 `;
 
@@ -66,38 +66,28 @@ const GridGlow = styled(motion.div)`
 const Inner = styled(Container)`
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 48px;
-  align-items: center;
-
-  @media (max-width: 820px) {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
 `;
 
-const Left = styled.div``;
-
-const Badge = styled.p`
-  display: inline-flex;
+/* Top editorial meta line: role on the left, live status on the right. */
+const MetaRow = styled(motion.div)`
+  display: flex;
   align-items: center;
-  gap: 9px;
-  background: var(--chip-bg);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  border-radius: 999px;
-  padding: 6px 14px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin-bottom: 22px;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+`;
+
+const Status = styled(MonoLabel)`
+  color: var(--live);
 `;
 
 const Pulse = styled.span`
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: var(--text);
+  background: var(--live);
   position: relative;
 
   &::after {
@@ -105,7 +95,7 @@ const Pulse = styled.span`
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: var(--text);
+    background: var(--live);
     animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
 
@@ -116,7 +106,7 @@ const Pulse = styled.span`
     }
     75%,
     100% {
-      transform: scale(2.6);
+      transform: scale(2.8);
       opacity: 0;
     }
   }
@@ -128,180 +118,192 @@ const Pulse = styled.span`
   }
 `;
 
-const Title = styled.h1`
-  font-size: clamp(2.2rem, 6vw, 3.6rem);
-  margin-bottom: 16px;
+/* Giant typographic wordmark. */
+const Wordmark = styled.h1`
+  margin: 32px 0 0;
+  font-size: clamp(3.1rem, 15vw, 11rem);
+  font-weight: 600;
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+
+  @media (max-width: 600px) {
+    margin-top: 28px;
+  }
 `;
 
-const Accent = styled.span`
+/* Each wordmark line clips an inner span that slides up on reveal. */
+const Line = styled.span`
+  display: block;
+  overflow: hidden;
+  /* Headroom so ascenders aren't clipped by the reveal mask at tight leading. */
+  padding: 0.14em 0 0.08em;
+`;
+
+const LineInner = styled(motion.span)`
+  display: block;
+`;
+
+const Dot = styled.span`
+  color: var(--text-subtle);
+`;
+
+/* Lead statement + contextual annotations beneath the wordmark. */
+const LeadRow = styled.div`
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 40px;
+  align-items: end;
+  margin-top: 44px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+
+  @media (max-width: 820px) {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+`;
+
+const Lead = styled(motion.p)`
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  line-height: 1.4;
+  color: var(--text-muted);
+  max-width: 34ch;
+
+  strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+`;
+
+const Annotations = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-self: end;
+  text-align: right;
+
+  @media (max-width: 820px) {
+    justify-self: start;
+    text-align: left;
+  }
+`;
+
+const Annotation = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+
+  svg {
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  @media (max-width: 820px) {
+    justify-content: flex-start;
+  }
+`;
+
+/* Actions: one solid CTA + a row of underline-sweep text links. */
+const Actions = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  margin-top: 40px;
+`;
+
+const Primary = styled(motion.a)`
   position: relative;
-  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 26px;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.82rem;
+  font-weight: 500;
+  overflow: hidden;
+  isolation: isolate;
+
+  /* Accent fill sweeps in from the left on hover. */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--accent);
+    transform: translateX(-101%);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:hover {
+    color: var(--accent-contrast);
+    text-decoration: none;
+  }
+  &:hover::before {
+    transform: translateX(0);
+  }
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+  &:hover svg {
+    transform: translateY(4px);
+  }
+`;
+
+/* Text link with a left-to-right underline sweep on hover/focus. */
+const SweepLink = styled.a`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 4px 0;
+
+  svg {
+    flex-shrink: 0;
+    opacity: 0.8;
+  }
 
   &::after {
     content: "";
     position: absolute;
     left: 0;
-    right: 0;
-    bottom: 0.08em;
-    height: 0.12em;
-    background: var(--text);
-    opacity: 0.85;
-  }
-`;
-
-const Role = styled.p`
-  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
-  color: var(--text);
-  font-weight: 600;
-  margin-bottom: 14px;
-`;
-
-const Tagline = styled.p`
-  font-size: 1.08rem;
-  color: var(--text-muted);
-  max-width: 54ch;
-  margin-bottom: 32px;
-`;
-
-const CtaRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-`;
-
-const Primary = styled(motion.a)`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--accent);
-  color: var(--accent-contrast);
-  font-weight: 600;
-  padding: 13px 22px;
-  border-radius: 10px;
-  border: 1px solid var(--accent);
-
-  &:hover {
-    text-decoration: none;
-    opacity: 0.9;
-  }
-`;
-
-const Secondary = styled(motion.a)`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  color: var(--text);
-  font-weight: 600;
-  padding: 13px 22px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-
-  &:hover {
-    border-color: var(--text);
-    text-decoration: none;
-  }
-`;
-
-/* ---- Portrait ---- */
-const PortraitWrap = styled(motion.div)`
-  justify-self: center;
-  position: relative;
-  width: min(320px, 78vw);
-  aspect-ratio: 1;
-`;
-
-/* Offset dashed frame sitting behind the portrait for depth. */
-const Frame = styled.div`
-  position: absolute;
-  inset: 0;
-  transform: translate(18px, 18px);
-  border: 1px dashed var(--border);
-  border-radius: 24px;
-  z-index: 0;
-`;
-
-/* Slowly rotating dashed ring accent tucked behind a corner. */
-const RingAccent = styled(motion.div)`
-  position: absolute;
-  width: 92px;
-  height: 92px;
-  right: -26px;
-  top: -26px;
-  border-radius: 50%;
-  border: 1px dashed var(--text-subtle);
-  opacity: 0.6;
-  z-index: 0;
-`;
-
-/* L-shaped corner brackets that frame the portrait. */
-const Corner = styled.span`
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  border: 2px solid var(--text);
-  z-index: 2;
-  pointer-events: none;
-
-  &[data-pos="tl"] {
-    top: -9px;
-    left: -9px;
-    border-right: none;
-    border-bottom: none;
-    border-top-left-radius: 10px;
-  }
-  &[data-pos="br"] {
-    bottom: -9px;
-    right: -9px;
-    border-left: none;
-    border-top: none;
-    border-bottom-right-radius: 10px;
-  }
-`;
-
-/* Small floating "+" accents. */
-const Plus = styled(motion.span)`
-  position: absolute;
-  color: var(--text-subtle);
-  font-size: 1.1rem;
-  line-height: 1;
-  z-index: 2;
-`;
-
-const Portrait = styled.div`
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--bg-elevated);
-  box-shadow: var(--shadow);
-
-  img {
+    bottom: 0;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(100%) contrast(1.02);
+    height: 1.5px;
+    background: var(--text);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
-`;
 
-const Monogram = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-  font-size: 4.5rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--text);
-  background: repeating-linear-gradient(
-      -45deg,
-      var(--chip-bg),
-      var(--chip-bg) 10px,
-      var(--bg-elevated) 10px,
-      var(--bg-elevated) 20px
-    );
+  &:hover,
+  &:focus-visible {
+    text-decoration: none;
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
+  }
 `;
 
 /* ---- Stats ---- */
@@ -311,55 +313,64 @@ const Stats = styled.dl`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  margin: 56px 0 0;
+  margin: 64px 0 0;
   border-top: 1px solid var(--border);
   padding-top: 32px;
 
   @media (max-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px 16px;
-    margin-top: 44px;
+    gap: 28px 16px;
+    margin-top: 48px;
   }
 `;
 
 const Stat = styled(motion.div)`
   dt {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    font-weight: 700;
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-size: clamp(1.7rem, 4vw, 2.3rem);
+    font-weight: 600;
     color: var(--text);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    line-height: 1;
   }
   dd {
-    margin: 4px 0 0;
-    color: var(--text-muted);
-    font-size: 0.9rem;
+    margin: 10px 0 0;
+    color: var(--text-subtle);
+    font-family: var(--font-mono), ui-monospace, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.68rem;
   }
 `;
 
+const EASE = [0.22, 1, 0.36, 1] as const;
+
 const container = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
 };
 
-const initials = profile.name
-  .split(" ")
-  .map((n) => n[0])
-  .slice(0, 2)
-  .join("");
+const lineReveal = {
+  hidden: { y: "110%" },
+  visible: {
+    y: "0%",
+    transition: { duration: 0.85, ease: EASE },
+  },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE },
+  },
+};
 
 export default function Hero() {
   const reduce = useReducedMotion();
-  const [imgError, setImgError] = useState(false);
   const [glowOn, setGlowOn] = useState(false);
   const wrapRef = useRef<HTMLElement>(null);
-  const photoRef = useRef<HTMLImageElement>(null);
-
-  // Catch a photo that 404'd before hydration (onError wouldn't re-fire), so the
-  // monogram placeholder shows until a real portrait is added.
-  useEffect(() => {
-    const el = photoRef.current;
-    if (el && el.complete && el.naturalWidth === 0) setImgError(true);
-  }, []);
 
   // Scroll: the grid drifts downward and fades as the hero leaves the viewport.
   const { scrollYProgress } = useScroll({
@@ -387,14 +398,9 @@ export default function Hero() {
     if (!glowOn) setGlowOn(true);
   };
 
-  const item = {
-    hidden: { opacity: 0, y: reduce ? 0 : 22 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
-    },
-  };
+  // Reveal the wordmark instantly for reduced-motion users.
+  const lineVariants = reduce ? undefined : lineReveal;
+  const lineInitial = reduce ? false : "hidden";
 
   return (
     <Wrap
@@ -417,134 +423,122 @@ export default function Hero() {
           } as unknown as React.CSSProperties
         }
       />
+
       <Inner as="div">
-        <Left as={motion.div} variants={container} initial="hidden" animate="visible">
-          {profile.openToWork && (
-            <motion.div variants={item}>
-              <Badge>
-                <Pulse aria-hidden="true" />
-                Open to Senior Frontend / Full-Stack roles
-              </Badge>
-            </motion.div>
+        <MetaRow variants={fadeUp} initial="hidden" animate="visible">
+          <MonoLabel>{profile.role}</MonoLabel>
+          {profile.openToWork ? (
+            <Status>
+              <Pulse aria-hidden="true" />
+              Open to work
+            </Status>
+          ) : (
+            <MonoLabel>Building since 2019</MonoLabel>
           )}
+        </MetaRow>
 
-          <motion.div variants={item}>
-            <Title>
-              Hi, I'm <Accent>{profile.name}</Accent>
-            </Title>
-          </motion.div>
-
-          <motion.div variants={item}>
-            <Role>
-              {profile.role} · {profile.location}
-            </Role>
-          </motion.div>
-
-          <motion.div variants={item}>
-            <Tagline>{profile.tagline}</Tagline>
-          </motion.div>
-
-          <CtaRow as={motion.div} variants={item}>
-            <Primary
-              href="#projects"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.97 }}
+        <Wordmark aria-label={profile.name}>
+          <Line aria-hidden="true">
+            <LineInner variants={lineVariants} initial={lineInitial} animate="visible">
+              Piyush
+            </LineInner>
+          </Line>
+          <Line aria-hidden="true">
+            <LineInner
+              variants={lineVariants}
+              initial={lineInitial}
+              animate="visible"
+              transition={reduce ? undefined : { delay: 0.12 }}
             >
-              View my work
-            </Primary>
-            <Secondary
+              Rajput<Dot>.</Dot>
+            </LineInner>
+          </Line>
+        </Wordmark>
+
+        <LeadRow>
+          <Lead variants={fadeUp} initial="hidden" animate="visible">
+            I build <strong>fast, accessible React apps</strong> for banks,
+            fintechs, and AI products — and keep them maintainable long after
+            launch.
+          </Lead>
+          <Annotations
+            as={motion.div}
+            variants={container}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div variants={fadeUp}>
+              <Annotation>
+                <FiArrowUpRight size={15} aria-hidden />
+                <strong>6 years</strong>&nbsp;in enterprise React
+              </Annotation>
+            </motion.div>
+            <motion.div variants={fadeUp}>
+              <Annotation>
+                <FiArrowUpRight size={15} aria-hidden />
+                <strong>14,000+</strong>&nbsp;users reached
+              </Annotation>
+            </motion.div>
+            <motion.div variants={fadeUp}>
+              <Annotation>
+                <FiArrowUpRight size={15} aria-hidden />
+                {profile.location.split(",")[0]}, India
+              </Annotation>
+            </motion.div>
+          </Annotations>
+        </LeadRow>
+
+        <Actions variants={container} initial="hidden" animate="visible">
+          <Primary
+            as={motion.a}
+            href="#projects"
+            variants={fadeUp}
+            whileHover={reduce ? undefined : { y: -2 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            See what I&apos;ve built
+            <FiArrowDown aria-hidden size={16} />
+          </Primary>
+
+          <motion.div variants={fadeUp}>
+            <SweepLink
               href={profile.resume}
               target="_blank"
               rel="noopener noreferrer"
               download
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.97 }}
             >
               <FiDownload aria-hidden size={15} />
-              Download résumé
-            </Secondary>
-            <Secondary
-              href="#contact"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Get in touch
-            </Secondary>
-            <Secondary
+              Résumé
+            </SweepLink>
+          </motion.div>
+          <motion.div variants={fadeUp}>
+            <SweepLink href={`mailto:${profile.email}`}>
+              <FiMail aria-hidden size={15} />
+              Email
+            </SweepLink>
+          </motion.div>
+          <motion.div variants={fadeUp}>
+            <SweepLink
               href={profile.socials.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.97 }}
             >
-              <FaLinkedinIn aria-hidden size={15} />
+              <FaLinkedinIn aria-hidden size={14} />
               LinkedIn
-            </Secondary>
-            <Secondary
+            </SweepLink>
+          </motion.div>
+          <motion.div variants={fadeUp}>
+            <SweepLink
               href={profile.socials.github}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.97 }}
             >
               <FaGithub aria-hidden size={15} />
               GitHub
-            </Secondary>
-          </CtaRow>
-        </Left>
+            </SweepLink>
+          </motion.div>
+        </Actions>
 
-        <motion.div
-          initial={{ opacity: 0, scale: reduce ? 1 : 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-        >
-          <PortraitWrap
-            animate={reduce ? {} : { y: [0, -10, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <Frame aria-hidden="true" />
-            <RingAccent
-              aria-hidden="true"
-              animate={reduce ? {} : { rotate: 360 }}
-              transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-            />
-            <Portrait>
-              {!imgError ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  ref={photoRef}
-                  src={profile.photo}
-                  alt={`Portrait of ${profile.name}`}
-                  onError={() => setImgError(true)}
-                  loading="eager"
-                />
-              ) : (
-                <Monogram aria-label={profile.name}>{initials}</Monogram>
-              )}
-            </Portrait>
-            <Corner data-pos="tl" aria-hidden="true" />
-            <Corner data-pos="br" aria-hidden="true" />
-            <Plus
-              aria-hidden="true"
-              style={{ bottom: -26, left: 24 }}
-              animate={reduce ? {} : { opacity: [0.3, 0.8, 0.3] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            >
-              +
-            </Plus>
-            <Plus
-              aria-hidden="true"
-              style={{ top: 10, right: -30 }}
-              animate={reduce ? {} : { opacity: [0.8, 0.3, 0.8] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-            >
-              +
-            </Plus>
-          </PortraitWrap>
-        </motion.div>
-      </Inner>
-
-      <Container>
         <Stats
           as={motion.dl}
           variants={container}
@@ -552,13 +546,13 @@ export default function Hero() {
           animate="visible"
         >
           {stats.map((s) => (
-            <Stat key={s.label} variants={item}>
+            <Stat key={s.label} variants={fadeUp}>
               <dt>{s.value}</dt>
               <dd>{s.label}</dd>
             </Stat>
           ))}
         </Stats>
-      </Container>
+      </Inner>
     </Wrap>
   );
 }

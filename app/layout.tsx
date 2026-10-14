@@ -1,9 +1,31 @@
 import type { Metadata, Viewport } from "next";
+import { Space_Grotesk, DM_Sans, DM_Mono } from "next/font/google";
 import StyledComponentsRegistry from "@/lib/registry";
 import GlobalStyles from "@/lib/GlobalStyles";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
 import { profile, skillGroups, education } from "@/data/portfolio";
+
+// Editorial type system: Space Grotesk (display), DM Sans (body), DM Mono (labels).
+const displayFont = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-display",
+  display: "swap",
+});
+const bodyFont = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
+  display: "swap",
+});
+const monoFont = DM_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
+const fontVars = `${displayFont.variable} ${bodyFont.variable} ${monoFont.variable}`;
 
 const SITE_URL = "https://piyushrajput.me";
 const pageTitle = `${profile.name} — ${profile.role}`;
@@ -127,7 +149,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="dark">
+    <html lang="en" data-theme="dark" className={fontVars}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         <script

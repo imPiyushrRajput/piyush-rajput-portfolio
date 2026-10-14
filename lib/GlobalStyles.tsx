@@ -21,6 +21,7 @@ const GlobalStyles = createGlobalStyle`
     --accent-strong: #ffffff;
     --accent-contrast: #0a0a0a;
     --chip-bg: #191919;
+    --live: #a3e635; /* lime — "open to work" status accent */
     --shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
     --ring: rgba(255, 255, 255, 0.6);
     --grid-line: rgba(255, 255, 255, 0.035);
@@ -39,6 +40,7 @@ const GlobalStyles = createGlobalStyle`
     --accent-strong: #000000;
     --accent-contrast: #ffffff;
     --chip-bg: #f4f4f4;
+    --live: #3f9142; /* darker lime-green for contrast on white */
     --shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
     --ring: rgba(0, 0, 0, 0.5);
     --grid-line: rgba(0, 0, 0, 0.04);
@@ -70,8 +72,8 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     background: var(--bg);
     color: var(--text);
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
-      sans-serif;
+    font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif;
     line-height: 1.6;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
@@ -80,9 +82,20 @@ const GlobalStyles = createGlobalStyle`
   }
 
   h1, h2, h3, h4 {
-    line-height: 1.2;
+    font-family: var(--font-display), system-ui, sans-serif;
+    line-height: 1.08;
     margin: 0;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+  }
+
+  /* Editorial mono micro-label (uppercase, tracked) used across sections. */
+  .mono-label {
+    font-family: var(--font-mono), ui-monospace, "SFMono-Regular", Menlo,
+      monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    color: var(--text-subtle);
   }
 
   p {
@@ -137,11 +150,35 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: none;
   }
 
-  /* Hide the native cursor only once the custom cursor is mounted (JS on,
-     fine pointer). Keyboard/touch/no-JS users keep the default cursor. */
-  html.has-custom-cursor,
-  html.has-custom-cursor * {
+  /* Hide the native cursor only inside the hero (where the decorative cursor
+     adds to the grid/graphics reveal). Everywhere else keeps the native cursor
+     for comfortable reading and interaction. */
+  html.has-custom-cursor #top,
+  html.has-custom-cursor #top * {
     cursor: none !important;
+  }
+
+  /* Animated theme switch: a circular reveal of the new theme wiping over the
+     old one, driven by the View Transitions API in Navbar. The default
+     cross-fade is disabled so only our clip-path animation plays. */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  ::view-transition-old(root) {
+    z-index: 0;
+  }
+  ::view-transition-new(root) {
+    z-index: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
   }
 
   /* Lenis smooth-scroll helpers (recommended defaults). */

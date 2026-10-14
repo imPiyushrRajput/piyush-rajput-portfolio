@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { motion, useReducedMotion } from "framer-motion";
-import { Container, Section, SectionTitle, SectionIntro, Chip } from "./primitives";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Container, Section, SectionIntro, Chip } from "./primitives";
 import Reveal from "./Reveal";
-import TypeText from "./TypeText";
+import SectionHeader from "./SectionHeader";
 import TechIcon from "./TechIcon";
 import Emphasize from "./Emphasize";
 import CompanyLogo, { companyFromOrg } from "./CompanyLogo";
@@ -13,44 +13,61 @@ import { projects, type Project } from "@/data/portfolio";
 
 const Toggle = styled.div`
   display: inline-flex;
-  gap: 4px;
-  padding: 4px;
+  gap: 2px;
+  padding: 3px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 3px;
   background: var(--bg-elevated);
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 `;
 
 const ToggleButton = styled.button<{ $active: boolean }>`
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   border: none;
   cursor: pointer;
-  padding: 8px 16px;
-  border-radius: 7px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  background: ${(p) => (p.$active ? "var(--accent)" : "transparent")};
+  padding: 9px 18px;
+  border-radius: 2px;
+  background: transparent;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.74rem;
+  font-weight: 500;
   color: ${(p) => (p.$active ? "var(--accent-contrast)" : "var(--text-muted)")};
+  transition: color 0.25s ease;
 
   &:hover {
     color: ${(p) => (p.$active ? "var(--accent-contrast)" : "var(--text)")};
   }
 `;
 
+/* Shared-layout highlight that slides to the active filter. */
+const ActivePill = styled(motion.span)`
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 2px;
+  background: var(--accent);
+`;
+
 const Count = styled.span`
-  display: inline-block;
-  min-width: 1.4em;
-  padding: 0 0.35em;
-  margin-left: 2px;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  line-height: 1.5;
-  background: color-mix(in srgb, currentColor 16%, transparent);
+  font-size: 0.7rem;
+  opacity: 0.65;
+`;
+
+/* Stable, full-width wrapper that is measured for the column count. It never
+   remounts on filter change, so the ResizeObserver keeps working. */
+const MasonryViewport = styled.div`
+  width: 100%;
 `;
 
 /* Masonry: fixed-width columns filled round-robin, so cards read left-to-right
    (row-major) while keeping their natural heights — no equal-row whitespace. */
-const Masonry = styled.div`
+const Masonry = styled(motion.div)`
   display: flex;
   align-items: flex-start;
   gap: 20px;
@@ -181,10 +198,8 @@ export default function Projects() {
   return (
     <Section id="projects">
       <Container>
+        <SectionHeader num="03" title="Projects" />
         <Reveal>
-          <SectionTitle>
-            <TypeText text="Projects" />
-          </SectionTitle>
           <SectionIntro>
             A selection of the {projects.length} products I've shipped — from
             RAG-powered enterprise tools to civic apps used by thousands during
@@ -193,19 +208,41 @@ export default function Projects() {
         </Reveal>
 
         <Toggle role="group" aria-label="Filter projects">
-          {filters.map((f) => (
-            <ToggleButton
-              key={f.key}
-              $active={filter === f.key}
-              onClick={() => setFilter(f.key)}
-              aria-pressed={filter === f.key}
-            >
-              {f.label} <Count>{f.count}</Count>
-            </ToggleButton>
-          ))}
+          {filters.map((f) => {
+            const active = filter === f.key;
+            return (
+              <ToggleButton
+                key={f.key}
+                $active={active}
+                onClick={() => setFilter(f.key)}
+                aria-pressed={active}
+              >
+                {active && (
+                  <ActivePill
+                    layoutId="projectFilterPill"
+                    transition={
+                      reduce
+                        ? { duration: 0 }
+                        : { type: "spring", stiffness: 420, damping: 34 }
+                    }
+                  />
+                )}
+                <span>{f.label}</span>
+                <Count>{f.count}</Count>
+              </ToggleButton>
+            );
+          })}
         </Toggle>
 
-        <Masonry ref={wrapRef}>
+        <MasonryViewport ref={wrapRef}>
+          <AnimatePresence mode="wait">
+            <Masonry
+              key={filter}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: reduce ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
+            >
           {columns.map((col, ci) => (
             <MasonryCol key={ci}>
               {col.map(({ project, index }) => (
@@ -216,7 +253,7 @@ export default function Projects() {
                   transition={{
                     duration: 0.45,
                     ease: [0.22, 1, 0.36, 1],
-                    delay: reduce ? 0 : Math.min(index * 0.05, 0.4),
+                    delay: reduce ? 0 : Math.min(index * 0.04, 0.35),
                   }}
                   whileHover={
                     reduce
@@ -278,7 +315,9 @@ export default function Projects() {
               ))}
             </MasonryCol>
           ))}
-        </Masonry>
+            </Masonry>
+          </AnimatePresence>
+        </MasonryViewport>
       </Container>
     </Section>
   );

@@ -2,9 +2,9 @@
 
 import styled from "styled-components";
 import { motion, useReducedMotion } from "framer-motion";
-import { Container, Section, SectionTitle, SectionIntro } from "./primitives";
+import { Container, Section, SectionIntro } from "./primitives";
 import Reveal from "./Reveal";
-import TypeText from "./TypeText";
+import SectionHeader from "./SectionHeader";
 import { recommendations } from "@/data/portfolio";
 
 const Grid = styled.div`
@@ -97,10 +97,8 @@ export default function Recommendations() {
   return (
     <Section id="recommendations">
       <Container>
+        <SectionHeader num="06" title="Recommendations" />
         <Reveal>
-          <SectionTitle>
-            <TypeText text="Recommendations" />
-          </SectionTitle>
           <SectionIntro>
             What colleagues and teammates have said about working with me.
           </SectionIntro>

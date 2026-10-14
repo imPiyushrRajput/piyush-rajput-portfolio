@@ -2,9 +2,9 @@
 
 import styled from "styled-components";
 import { motion, useReducedMotion } from "framer-motion";
-import { Container, Section, SectionTitle, SectionIntro, Chip } from "./primitives";
+import { Container, Section, SectionIntro, Chip } from "./primitives";
 import Reveal from "./Reveal";
-import TypeText from "./TypeText";
+import SectionHeader from "./SectionHeader";
 import TechIcon from "./TechIcon";
 import Emphasize from "./Emphasize";
 import CompanyLogo from "./CompanyLogo";
@@ -121,10 +121,8 @@ export default function Experience() {
   return (
     <Section id="experience">
       <Container>
+        <SectionHeader num="02" title="Experience" />
         <Reveal>
-          <SectionTitle>
-            <TypeText text="Experience" />
-          </SectionTitle>
           <SectionIntro>
             Nearly 6 years building large-scale frontend applications for
             enterprise clients across banking, fintech, healthcare, and

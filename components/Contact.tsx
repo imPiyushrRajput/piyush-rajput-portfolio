@@ -3,9 +3,8 @@
 import styled from "styled-components";
 import { FaLinkedinIn } from "react-icons/fa6";
 import { FiMail, FiDownload } from "react-icons/fi";
-import { Container, Section } from "./primitives";
+import { Container, Section, MonoLabel } from "./primitives";
 import Reveal from "./Reveal";
-import TypeText from "./TypeText";
 import { profile } from "@/data/portfolio";
 
 const Panel = styled.div`
@@ -42,33 +41,75 @@ const Row = styled.div`
 const Primary = styled.a`
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  padding: 15px 28px;
+  border-radius: 2px;
+  border: 1px solid var(--accent);
   background: var(--accent);
   color: var(--accent-contrast);
-  font-weight: 600;
-  padding: 13px 26px;
-  border-radius: 10px;
-  border: 1px solid var(--accent);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: background 0.35s ease, color 0.35s ease;
 
   &:hover {
-    background: var(--accent-strong);
+    background: transparent;
+    color: var(--text);
     text-decoration: none;
+  }
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+  &:hover svg {
+    transform: translateX(3px);
   }
 `;
 
 const Secondary = styled.a`
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: var(--text);
-  font-weight: 600;
-  padding: 13px 26px;
-  border-radius: 10px;
+  gap: 10px;
+  padding: 15px 28px;
+  border-radius: 2px;
   border: 1px solid var(--border);
+  color: var(--text);
+  background: transparent;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  font-weight: 500;
+  overflow: hidden;
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--accent);
+    transform: translateX(-101%);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
 
   &:hover {
+    color: var(--accent-contrast);
     border-color: var(--accent);
     text-decoration: none;
+  }
+  &:hover::before {
+    transform: translateX(0);
+  }
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+  &:hover svg {
+    transform: translateY(3px);
   }
 `;
 
@@ -78,9 +119,10 @@ export default function Contact() {
       <Container>
         <Reveal>
         <Panel>
-          <Heading>
-            <TypeText text="Let's build something great" />
-          </Heading>
+          <MonoLabel style={{ justifyContent: "center", marginBottom: 18 }}>
+            07 — Contact
+          </MonoLabel>
+          <Heading>Let&apos;s build something great</Heading>
           <Sub>
             I'm open to Senior Frontend / Full-Stack roles where I can own
             meaningful product surfaces and keep growing. If that sounds like a

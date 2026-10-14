@@ -383,9 +383,11 @@ export const certifications: Certification[] = [
 ];
 
 export const skillGroups: { title: string; items: string[] }[] = [
+  // Ordered by importance for a senior frontend engineer: core language and
+  // framework skills first, then supporting concerns, tooling last.
   {
     title: "Languages",
-    items: ["HTML", "CSS", "JavaScript", "TypeScript"],
+    items: ["JavaScript", "TypeScript", "HTML", "CSS", "Python"],
   },
   {
     title: "Libraries & Frameworks",
@@ -393,28 +395,56 @@ export const skillGroups: { title: string; items: string[] }[] = [
       "React.js",
       "Next.js",
       "React Native",
-      "Redux",
-      "Redux Toolkit",
-      "RTK Query",
-      "Jest",
-      "React Testing Library",
-      "Storybook",
-      "styled-components",
+      "React Router",
       "Material UI",
       "Ant Design",
+      "i18next (i18n)",
       "Nivo",
-      "JSON Schema",
     ],
   },
   {
-    title: "Architecture",
+    title: "Styling",
+    items: ["styled-components", "CSS-in-JS", "Sass/SCSS", "Responsive Design"],
+  },
+  {
+    title: "State & Data",
+    items: [
+      "Redux Toolkit",
+      "Redux",
+      "RTK Query",
+      "React Context API",
+      "TanStack Query",
+      "SWR",
+      "Zustand",
+      "Error Boundaries",
+    ],
+  },
+  {
+    title: "Rendering & SEO",
+    items: [
+      "CSR",
+      "SSR",
+      "SSG",
+      "ISR",
+      "Hydration",
+      "React Server Components",
+      "SEO",
+      "Open Graph",
+    ],
+  },
+  {
+    title: "Forms & Validation",
+    items: ["React Hook Form", "Zod", "Yup", "JSON Schema"],
+  },
+  {
+    title: "Architecture & Design Systems",
     items: [
       "Microfrontends",
       "Module Federation",
-      "Atomic Design",
       "Design Systems",
       "Component Libraries",
-      "Responsive Design",
+      "Atomic Design",
+      "Storybook",
     ],
   },
   {
@@ -422,7 +452,10 @@ export const skillGroups: { title: string; items: string[] }[] = [
     items: [
       "Unit Testing",
       "Integration Testing",
+      "E2E Testing",
       "TDD",
+      "Jest",
+      "React Testing Library",
       "Playwright",
       "Cucumber",
     ],
@@ -430,11 +463,25 @@ export const skillGroups: { title: string; items: string[] }[] = [
   {
     title: "Performance",
     items: [
-      "Code Splitting",
-      "Bundle Optimization",
+      "Core Web Vitals",
       "Lighthouse",
+      "Code Splitting",
+      "Lazy Loading",
+      "Bundle Optimization",
+      "Memoization",
       "PageSpeed",
       "Cross-browser Compatibility",
+    ],
+  },
+  {
+    title: "Accessibility",
+    items: [
+      "Accessibility",
+      "WCAG 2.1 AA",
+      "Semantic HTML",
+      "ARIA",
+      "Keyboard Navigation",
+      "axe DevTools",
     ],
   },
   {
@@ -444,37 +491,50 @@ export const skillGroups: { title: string; items: string[] }[] = [
       "GraphQL",
       "Apollo Client",
       "Axios",
-      "WebSockets",
-      "Action Cable (WebSockets)",
-      "Twilio",
       "Server-Sent Events (SSE)",
+      "WebSockets",
+      "JWT",
+      "Twilio",
     ],
   },
   {
     title: "RAG / AI",
-    items: ["LangChain", "Vector DBs", "AWS Athena", "Prompt Engineering"],
+    items: ["LangChain", "Vector DBs", "Prompt Engineering", "AWS Athena"],
+  },
+  {
+    title: "Backend & Mobile",
+    items: [
+      "Node.js",
+      "Express",
+      "Ruby on Rails",
+      "Action Cable",
+      "Flutter",
+      "Firebase",
+    ],
+  },
+  {
+    title: "Databases",
+    items: ["MongoDB", "Firestore"],
   },
   {
     title: "Tools & Workflow",
     items: [
       "Git",
       "GitHub",
-      "GitLab",
       "GitHub Actions CI/CD",
-      "Private npm Registry",
+      "GitLab",
       "Webpack",
+      "Vite",
       "Babel",
+      "ESLint",
+      "Prettier",
+      "Chrome DevTools",
+      "Husky",
+      "Lighthouse CI",
+      "Private npm Registry",
       "Agile",
       "Scrum",
     ],
-  },
-  {
-    title: "Backend & Mobile",
-    items: ["Node.js", "Express", "Ruby on Rails", "Flutter", "Firebase"],
-  },
-  {
-    title: "Databases",
-    items: ["MongoDB", "Firebase Firestore"],
   },
 ];
 

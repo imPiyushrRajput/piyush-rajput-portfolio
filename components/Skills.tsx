@@ -1,16 +1,32 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { motion, useReducedMotion } from "framer-motion";
-import { Container, Section, SectionTitle, SectionIntro } from "./primitives";
+import { Container, Section, SectionIntro } from "./primitives";
 import Reveal from "./Reveal";
-import TypeText from "./TypeText";
+import SectionHeader from "./SectionHeader";
 import TechIcon from "./TechIcon";
 import { skillGroups } from "@/data/portfolio";
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+/* Stable, full-width wrapper measured for the column count. */
+const MasonryViewport = styled.div`
+  width: 100%;
+`;
+
+/* Masonry: fixed-width columns filled round-robin, so groups read
+   left-to-right while keeping their natural heights. */
+const Masonry = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+`;
+
+const MasonryCol = styled.div`
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 `;
 
@@ -61,51 +77,72 @@ const List = styled.ul`
 
 export default function Skills() {
   const reduce = useReducedMotion();
-  const item = {
-    hidden: { opacity: 0, y: reduce ? 0 : 18 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-    },
-  };
+
+  // Responsive column count for the masonry.
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [cols, setCols] = useState(3);
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const compute = () => {
+      const colW = 300;
+      const gap = 20;
+      setCols(Math.max(1, Math.floor((el.clientWidth + gap) / (colW + gap))));
+    };
+    compute();
+    const ro = new ResizeObserver(compute);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Distribute round-robin so groups read left-to-right, top-to-bottom.
+  const columns: { group: (typeof skillGroups)[number]; index: number }[][] =
+    Array.from({ length: cols }, () => []);
+  skillGroups.forEach((group, index) => {
+    columns[index % cols].push({ group, index });
+  });
 
   return (
     <Section id="skills">
       <Container>
+        <SectionHeader num="04" title="Skills" />
         <Reveal>
-          <SectionTitle>
-            <TypeText text="Skills" />
-          </SectionTitle>
           <SectionIntro>
             The tools and practices I reach for — with an emphasis on testing,
             reusable architecture, and, increasingly, AI integration.
           </SectionIntro>
         </Reveal>
 
-        <Grid
-          as={motion.div}
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.06 } },
-          }}
-        >
-          {skillGroups.map((group) => (
-            <Group key={group.title} variants={item}>
-              <GroupTitle>{group.title}</GroupTitle>
-              <List>
-                {group.items.map((skill) => (
-                  <li key={skill}>
-                    <TechIcon name={skill} size={15} />
-                    {skill}
-                  </li>
+        <MasonryViewport ref={wrapRef}>
+          <Masonry>
+            {columns.map((col, ci) => (
+              <MasonryCol key={ci}>
+                {col.map(({ group, index }) => (
+                  <Group
+                    key={group.title}
+                    initial={{ opacity: 0, y: reduce ? 0 : 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.45,
+                      ease: [0.22, 1, 0.36, 1],
+                      delay: reduce ? 0 : Math.min(index * 0.05, 0.4),
+                    }}
+                  >
+                    <GroupTitle>{group.title}</GroupTitle>
+                    <List>
+                      {group.items.map((skill) => (
+                        <li key={skill}>
+                          <TechIcon name={skill} size={15} />
+                          {skill}
+                        </li>
+                      ))}
+                    </List>
+                  </Group>
                 ))}
-              </List>
-            </Group>
-          ))}
-        </Grid>
+              </MasonryCol>
+            ))}
+          </Masonry>
+        </MasonryViewport>
       </Container>
     </Section>
   );

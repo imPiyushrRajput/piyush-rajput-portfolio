@@ -1,9 +1,9 @@
 "use client";
 
 import styled from "styled-components";
-import { Container, Section, SectionTitle } from "./primitives";
+import { Container, Section } from "./primitives";
 import Reveal from "./Reveal";
-import TypeText from "./TypeText";
+import SectionHeader from "./SectionHeader";
 import { education, certifications } from "@/data/portfolio";
 
 const Grid = styled.div`
@@ -97,11 +97,7 @@ export default function Education() {
   return (
     <Section id="education">
       <Container>
-        <Reveal>
-          <SectionTitle>
-            <TypeText text="Education & Certifications" />
-          </SectionTitle>
-        </Reveal>
+        <SectionHeader num="05" title="Education & Certifications" />
         <Grid>
           <Reveal as="div">
             <ColTitle>Education</ColTitle>

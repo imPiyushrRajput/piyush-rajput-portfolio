@@ -58,31 +58,54 @@ const Nav = styled.nav`
 
 const NavLink = styled.a<{ $active?: boolean }>`
   position: relative;
+  display: inline-block;
   color: ${(p) => (p.$active ? "var(--text)" : "var(--text-muted)")};
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 500;
   padding: 8px 12px;
-  border-radius: 8px;
-  transition: color 0.2s ease;
+  transition: color 0.25s ease;
 
   &:hover {
     color: var(--text);
-    background: var(--chip-bg);
     text-decoration: none;
   }
 
+  /* Active-section indicator. */
   &::after {
     content: "";
     position: absolute;
     left: 12px;
     right: 12px;
-    bottom: 3px;
-    height: 2px;
-    border-radius: 2px;
+    bottom: 2px;
+    height: 1.5px;
     background: var(--accent);
     transform: scaleX(${(p) => (p.$active ? 1 : 0)});
     transform-origin: left center;
-    transition: transform 0.25s ease;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+`;
+
+/* Vertical text-swap on hover: the label slides up and an identical copy
+   rises in from below. */
+const Clip = styled.span`
+  display: inline-block;
+  overflow: hidden;
+  height: 1.4em;
+  line-height: 1.4;
+  vertical-align: top;
+`;
+
+const Slider = styled.span`
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+
+  span {
+    display: block;
+    height: 1.4em;
+  }
+
+  ${NavLink}:hover & {
+    transform: translateY(-1.4em);
   }
 `;
 
@@ -93,21 +116,48 @@ const Actions = styled.div`
 `;
 
 const ResumeButton = styled.a`
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.88rem;
-  font-weight: 600;
-  padding: 8px 14px;
-  border-radius: 9px;
-  background: var(--accent);
-  color: var(--accent-contrast);
-  border: 1px solid var(--accent);
+  gap: 8px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.74rem;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 2px;
+  color: var(--text);
+  border: 1px solid var(--border);
+  background: transparent;
+  overflow: hidden;
+  isolation: isolate;
+
+  /* Fill-sweep from the left on hover. */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--accent);
+    transform: translateX(-101%);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
 
   &:hover {
-    background: var(--accent-strong);
-    border-color: var(--accent-strong);
+    color: var(--accent-contrast);
+    border-color: var(--accent);
     text-decoration: none;
+  }
+  &:hover::before {
+    transform: translateX(0);
+  }
+
+  span.arrow {
+    transition: transform 0.3s ease;
+  }
+  &:hover span.arrow {
+    transform: translateY(2px);
   }
 
   @media (max-width: 860px) {
@@ -176,31 +226,54 @@ const MobileNav = styled(motion.nav)`
   overflow-y: auto;
   border-top: 1px solid var(--border);
   background: var(--bg);
+  display: flex;
+  flex-direction: column;
 
   @media (min-width: 861px) {
     display: none;
   }
+`;
 
-  a {
-    display: block;
-    padding: 16px 24px;
-    color: var(--text-muted);
-    font-weight: 500;
-    font-size: 1.05rem;
-    border-bottom: 1px solid var(--border);
-    border-left: 3px solid transparent;
+/* Big editorial menu row: mono index + large display label, slides right on
+   hover/active. */
+const MLink = styled(motion.a)`
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.7rem, 8vw, 2.4rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  transition: color 0.2s ease, padding-left 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.2s ease;
 
-    &:hover {
-      color: var(--text);
-      background: var(--chip-bg);
-      text-decoration: none;
-    }
+  .idx {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--text-subtle);
+    font-weight: 400;
+    flex-shrink: 0;
+    width: 2.4em;
   }
 
-  a[aria-current="true"] {
+  &:hover,
+  &:focus-visible {
     color: var(--text);
-    border-left-color: var(--accent);
+    padding-left: 34px;
     background: var(--chip-bg);
+    text-decoration: none;
+  }
+
+  &[aria-current="true"] {
+    color: var(--text);
+  }
+  &[aria-current="true"] .idx {
+    color: var(--accent);
   }
 `;
 
@@ -290,15 +363,58 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  const toggleTheme = () => {
+  const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
     const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
-    try {
-      localStorage.setItem("theme", next);
-    } catch {
-      /* ignore storage errors (private mode, etc.) */
+    const apply = () => {
+      setTheme(next);
+      document.documentElement.setAttribute("data-theme", next);
+      try {
+        localStorage.setItem("theme", next);
+      } catch {
+        /* ignore storage errors (private mode, etc.) */
+      }
+    };
+
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    // Animate the switch as a circular reveal of the new theme, growing from the
+    // toggle button. Falls back to an instant switch where unsupported.
+    const startVT = (
+      document as Document & {
+        startViewTransition?: (cb: () => void) => { ready: Promise<void> };
+      }
+    ).startViewTransition;
+
+    if (!startVT || prefersReduced) {
+      apply();
+      return;
     }
+
+    const x = e.clientX;
+    const y = e.clientY;
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = startVT.call(document, apply);
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 520,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    });
   };
 
   const initials = profile.name
@@ -325,7 +441,12 @@ export default function Navbar() {
                 $active={active}
                 aria-current={active ? "true" : undefined}
               >
-                {link.label}
+                <Clip>
+                  <Slider>
+                    <span>{link.label}</span>
+                    <span aria-hidden="true">{link.label}</span>
+                  </Slider>
+                </Clip>
               </NavLink>
             );
           })}
@@ -338,7 +459,7 @@ export default function Navbar() {
             rel="noopener noreferrer"
             download
           >
-            Résumé ↓
+            Résumé <span className="arrow">↓</span>
           </ResumeButton>
           <IconButton
             onClick={toggleTheme}
@@ -375,27 +496,47 @@ export default function Navbar() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            {navLinks.map((link) => (
-              <a
+            {navLinks.map((link, i) => (
+              <MLink
                 key={link.href}
                 href={link.href}
                 aria-current={
                   activeId === link.href.replace("#", "") ? "true" : undefined
                 }
                 onClick={() => setMenuOpen(false)}
+                initial={reduce ? false : { opacity: 0, x: -18 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  delay: reduce ? 0 : 0.08 + i * 0.05,
+                  duration: 0.4,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
               >
+                <span className="idx" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
                 {link.label}
-              </a>
+              </MLink>
             ))}
-            <a
+            <MLink
               href={profile.resume}
               target="_blank"
               rel="noopener noreferrer"
               download
               onClick={() => setMenuOpen(false)}
+              initial={reduce ? false : { opacity: 0, x: -18 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                delay: reduce ? 0 : 0.08 + navLinks.length * 0.05,
+                duration: 0.4,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
-              Résumé ↓
-            </a>
+              <span className="idx" aria-hidden="true">
+                ↓
+              </span>
+              Résumé
+            </MLink>
           </MobileNav>
         )}
       </AnimatePresence>

@@ -42,6 +42,8 @@ export default function CustomCursor() {
   const [enabled, setEnabled] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [visible, setVisible] = useState(false);
+  // Only active while the pointer is over the hero section (#top).
+  const [inHero, setInHero] = useState(false);
 
   const dotX = useMotionValue(-100);
   const dotY = useMotionValue(-100);
@@ -60,6 +62,8 @@ export default function CustomCursor() {
       dotX.set(e.clientX);
       dotY.set(e.clientY);
       if (!visible) setVisible(true);
+      const target = e.target as HTMLElement;
+      setInHero(!!target?.closest?.("#top"));
     };
     const over = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -87,15 +91,17 @@ export default function CustomCursor() {
 
   if (!enabled) return null;
 
+  const show = visible && inHero;
+
   return (
     <div aria-hidden="true">
       <Dot
-        style={{ x: dotX, y: dotY, opacity: visible ? 1 : 0 }}
+        style={{ x: dotX, y: dotY, opacity: show ? 1 : 0 }}
         animate={{ scale: hovering ? 0 : 1 }}
         transition={{ duration: 0.15 }}
       />
       <Ring
-        style={{ x: ringX, y: ringY, opacity: visible ? 1 : 0 }}
+        style={{ x: ringX, y: ringY, opacity: show ? 1 : 0 }}
         animate={{ scale: hovering ? 1.7 : 1 }}
         transition={{ duration: 0.2 }}
       />
