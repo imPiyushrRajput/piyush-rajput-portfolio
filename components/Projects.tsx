@@ -216,6 +216,8 @@ export default function Projects() {
                 $active={active}
                 onClick={() => setFilter(f.key)}
                 aria-pressed={active}
+                data-sfx="slide"
+                data-sfx-hover="off"
               >
                 {active && (
                   <ActivePill

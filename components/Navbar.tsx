@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { FiVolume2, FiVolumeX } from "react-icons/fi";
 import { Container } from "./primitives";
+import { setSoundEnabled, primeAudio, playClick } from "@/lib/sfx";
 import { navLinks, profile } from "@/data/portfolio";
 
 const Header = styled.header<{ $scrolled: boolean; $menuOpen: boolean }>`
@@ -291,6 +293,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [soundOn, setSoundOn] = useState(false);
   const [activeId, setActiveId] = useState<string>("");
   const reduce = useReducedMotion();
 
@@ -308,6 +311,34 @@ export default function Navbar() {
         | "light") || "dark";
     setTheme(current);
   }, []);
+
+  // Restore the saved sound preference (on by default unless turned off).
+  useEffect(() => {
+    let on = true;
+    try {
+      on = localStorage.getItem("sound") !== "off";
+    } catch {
+      /* ignore */
+    }
+    setSoundOn(on);
+    setSoundEnabled(on);
+  }, []);
+
+  const toggleSound = () => {
+    const next = !soundOn;
+    setSoundOn(next);
+    setSoundEnabled(next);
+    try {
+      localStorage.setItem("sound", next ? "on" : "off");
+    } catch {
+      /* ignore */
+    }
+    // Resume the audio context and give immediate feedback when enabling.
+    if (next) {
+      primeAudio();
+      playClick();
+    }
+  };
 
   // Scrollspy: highlight the nav link for the section currently in view.
   useEffect(() => {
@@ -450,6 +481,7 @@ export default function Navbar() {
                 href={link.href}
                 $active={active}
                 aria-current={active ? "true" : undefined}
+                data-sfx="flip"
               >
                 <Clip>
                   <Slider>
@@ -468,9 +500,18 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             download
+            data-sfx="sweep"
           >
             Résumé <span className="arrow">↓</span>
           </ResumeButton>
+          <IconButton
+            onClick={toggleSound}
+            aria-label={`Turn interface sounds ${soundOn ? "off" : "on"}`}
+            aria-pressed={soundOn}
+            title={`Sound ${soundOn ? "on" : "off"}`}
+          >
+            {soundOn ? <FiVolume2 size={18} /> : <FiVolumeX size={18} />}
+          </IconButton>
           <IconButton
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}

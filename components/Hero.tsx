@@ -13,6 +13,7 @@ import {
 import { FaLinkedinIn, FaGithub } from "react-icons/fa6";
 import { FiDownload, FiMail, FiArrowDown, FiArrowUpRight } from "react-icons/fi";
 import { Container, MonoLabel } from "./primitives";
+import { playMove } from "@/lib/sfx";
 import { profile, stats } from "@/data/portfolio";
 
 const Wrap = styled.section`
@@ -371,6 +372,7 @@ export default function Hero() {
   const reduce = useReducedMotion();
   const [glowOn, setGlowOn] = useState(false);
   const wrapRef = useRef<HTMLElement>(null);
+  const lastMoveRef = useRef({ x: 0, y: 0, t: 0 });
 
   // Scroll: the grid drifts downward and fades as the hero leaves the viewport.
   const { scrollYProgress } = useScroll({
@@ -396,6 +398,14 @@ export default function Hero() {
     mxVal.set(e.clientX - rect.left);
     myVal.set(e.clientY - rect.top);
     if (!glowOn) setGlowOn(true);
+
+    // Velocity-based "drag" grain so the custom cursor feels tactile here.
+    const now = performance.now();
+    const lp = lastMoveRef.current;
+    const dt = now - lp.t || 16;
+    const dist = Math.hypot(e.clientX - lp.x, e.clientY - lp.y);
+    lastMoveRef.current = { x: e.clientX, y: e.clientY, t: now };
+    playMove((dist / dt) * 16);
   };
 
   // Reveal the wordmark instantly for reduced-motion users.
@@ -491,6 +501,7 @@ export default function Hero() {
         <Actions variants={container} initial="hidden" animate="visible">
           <Primary
             as={motion.a}
+            data-sfx="sweep"
             href="#projects"
             variants={fadeUp}
             whileHover={reduce ? undefined : { y: -2 }}
@@ -502,6 +513,7 @@ export default function Hero() {
 
           <motion.div variants={fadeUp}>
             <SweepLink
+              data-sfx="sweep"
               href={profile.resume}
               target="_blank"
               rel="noopener noreferrer"
@@ -512,13 +524,14 @@ export default function Hero() {
             </SweepLink>
           </motion.div>
           <motion.div variants={fadeUp}>
-            <SweepLink href={`mailto:${profile.email}`}>
+            <SweepLink data-sfx="sweep" href={`mailto:${profile.email}`}>
               <FiMail aria-hidden size={15} />
               Email
             </SweepLink>
           </motion.div>
           <motion.div variants={fadeUp}>
             <SweepLink
+              data-sfx="sweep"
               href={profile.socials.linkedin}
               target="_blank"
               rel="noopener noreferrer"
@@ -529,6 +542,7 @@ export default function Hero() {
           </motion.div>
           <motion.div variants={fadeUp}>
             <SweepLink
+              data-sfx="sweep"
               href={profile.socials.github}
               target="_blank"
               rel="noopener noreferrer"

@@ -4,6 +4,7 @@ import StyledComponentsRegistry from "@/lib/registry";
 import GlobalStyles from "@/lib/GlobalStyles";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
+import SoundEffects from "@/components/SoundEffects";
 import { profile, skillGroups, education } from "@/data/portfolio";
 
 // Editorial type system: Space Grotesk (display), DM Sans (body), DM Mono (labels).
@@ -165,6 +166,7 @@ export default function RootLayout({
           <GlobalStyles />
           <SmoothScroll />
           <CustomCursor />
+          <SoundEffects />
           {children}
         </StyledComponentsRegistry>
       </body>

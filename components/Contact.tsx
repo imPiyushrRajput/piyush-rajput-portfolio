@@ -129,11 +129,12 @@ export default function Contact() {
             fit, I'd love to hear from you.
           </Sub>
           <Row>
-            <Primary href={`mailto:${profile.email}`}>
+            <Primary data-sfx="sweep" href={`mailto:${profile.email}`}>
               <FiMail aria-hidden size={16} />
               Email me
             </Primary>
             <Secondary
+              data-sfx="sweep"
               href={profile.resume}
               target="_blank"
               rel="noopener noreferrer"
@@ -143,6 +144,7 @@ export default function Contact() {
               Download résumé
             </Secondary>
             <Secondary
+              data-sfx="sweep"
               href={profile.socials.linkedin}
               target="_blank"
               rel="noopener noreferrer"
