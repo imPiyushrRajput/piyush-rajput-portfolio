@@ -43,6 +43,8 @@ import {
   SiSass,
   SiJsonwebtokens,
   SiGooglechrome,
+  SiFastapi,
+  SiDjango,
 } from "react-icons/si";
 import { FaUniversalAccess } from "react-icons/fa6";
 import {
@@ -115,6 +117,9 @@ const MAP: Record<string, IconType> = {
   "ant design": SiAntdesign,
   "next.js": SiNextdotjs,
   nivo: FiBarChart2,
+  recharts: FiBarChart2,
+  "ag grid": FiGrid,
+  aggrid: FiGrid,
   // Testing
   jest: SiJest,
   storybook: SiStorybook,
@@ -144,6 +149,8 @@ const MAP: Record<string, IconType> = {
   // Backend / mobile / db
   "node.js": SiNodedotjs,
   express: SiExpress,
+  fastapi: SiFastapi,
+  django: SiDjango,
   "ruby on rails": SiRubyonrails,
   flutter: SiFlutter,
   firebase: SiFirebase,
@@ -193,6 +200,7 @@ const MAP: Record<string, IconType> = {
   lighthouse: FiZap,
   pagespeed: FiZap,
   "core web vitals": FiActivity,
+  cdn: FiGlobe,
   "cross-browser compatibility": FiZap,
   // Tooling / workflow
   git: SiGit,
@@ -203,6 +211,8 @@ const MAP: Record<string, IconType> = {
   "lighthouse ci": FiZap,
   husky: FiCheckCircle,
   "chrome devtools": SiGooglechrome,
+  "claude code": FiCode,
+  claude: FiMessageSquare,
   "private npm registry": SiNpm,
   webpack: SiWebpack,
   vite: SiVite,
@@ -253,11 +263,15 @@ const BRAND: Record<string, string> = {
   "react testing library": "#E33332",
   cucumber: "#23D96C",
   "node.js": "#5FA04E",
+  fastapi: "#009688",
+  django: "#44B78B",
   "ruby on rails": "#D30001",
   flutter: "#02569B",
   firebase: "#FFCA28",
   firestore: "#FFCA28",
   mongodb: "#47A248",
+  "claude code": "#D97757",
+  claude: "#D97757",
   git: "#F05032",
   gitlab: "#FC6D26",
   "github actions ci/cd": "#2088FF",
