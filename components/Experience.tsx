@@ -124,7 +124,7 @@ export default function Experience() {
         <SectionHeader num="02" title="Experience" />
         <Reveal>
           <SectionIntro>
-            Nearly 6 years building large-scale frontend applications for
+            Nearly 6 years building large-scale web applications end-to-end for
             enterprise clients across banking, fintech, healthcare, and
             manufacturing.
           </SectionIntro>

@@ -108,8 +108,9 @@ export default function Skills() {
         <SectionHeader num="04" title="Skills" />
         <Reveal>
           <SectionIntro>
-            The tools and practices I reach for — with an emphasis on testing,
-            reusable architecture, and, increasingly, AI integration.
+            The tools and practices I reach for across the stack — from React
+            interfaces to APIs, data, real-time, and, increasingly, AI
+            integration.
           </SectionIntro>
         </Reveal>
 

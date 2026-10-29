@@ -210,7 +210,7 @@ export default function About() {
               </div>
               <div>
                 <dt>Focus</dt>
-                <dd>Frontend + AI Eng.</dd>
+                <dd>Full-stack + AI</dd>
               </div>
               <div>
                 <dt>Availability</dt>

@@ -124,9 +124,9 @@ export default function Contact() {
           </MonoLabel>
           <Heading>Let&apos;s build something great</Heading>
           <Sub>
-            I'm open to Senior Frontend / Full-Stack roles where I can own
-            meaningful product surfaces and keep growing. If that sounds like a
-            fit, I'd love to hear from you.
+            I'm open to Senior Full Stack / Frontend roles where I can own
+            meaningful product surfaces end-to-end and keep growing. If that
+            sounds like a fit, I'd love to hear from you.
           </Sub>
           <Row>
             <Primary data-sfx="sweep" href={`mailto:${profile.email}`}>

@@ -121,7 +121,9 @@ const Pulse = styled.span`
 
 /* Giant typographic wordmark. */
 const Wordmark = styled.h1`
-  margin: 32px 0 0;
+  /* Negative left margin cancels the giant glyph's left side-bearing so the
+     wordmark's ink optically aligns with the mono label above it. */
+  margin: 32px 0 0 -0.065em;
   font-size: clamp(3.1rem, 15vw, 11rem);
   font-weight: 600;
   line-height: 0.82;
@@ -467,9 +469,9 @@ export default function Hero() {
 
         <LeadRow>
           <Lead variants={fadeUp} initial="hidden" animate="visible">
-            I build <strong>fast, accessible React apps</strong> for banks,
-            fintechs, and AI products — and keep them maintainable long after
-            launch.
+            I build <strong>fast, accessible web apps, end to end</strong> —
+            React up front, with APIs, services, and real-time behind them — for
+            banks, fintechs, and AI products.
           </Lead>
           <Annotations
             as={motion.div}
@@ -480,7 +482,7 @@ export default function Hero() {
             <motion.div variants={fadeUp}>
               <Annotation>
                 <FiArrowUpRight size={15} aria-hidden />
-                <strong>6 years</strong>&nbsp;in enterprise React
+                <strong>6 years</strong>&nbsp;across the stack
               </Annotation>
             </motion.div>
             <motion.div variants={fadeUp}>

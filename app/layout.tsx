@@ -31,7 +31,7 @@ const fontVars = `${displayFont.variable} ${bodyFont.variable} ${monoFont.variab
 const SITE_URL = "https://piyushrajput.me";
 const pageTitle = `${profile.name} — ${profile.role}`;
 const description =
-  "Piyush Rajput is a Senior Frontend Engineer with nearly 6 years building large-scale React, TypeScript, and microfrontend applications for enterprise clients including Lloyds Banking Group and CPPIB.";
+  "Piyush Rajput is a Senior Full Stack Engineer with nearly 6 years building large-scale web applications end-to-end — React & TypeScript on the front, with Node, APIs, real-time, and data/AI behind them — for enterprise clients including Lloyds Banking Group and CPPIB.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -43,11 +43,15 @@ export const metadata: Metadata = {
   applicationName: `${profile.name} Portfolio`,
   keywords: [
     "Piyush Rajput",
-    "Senior Frontend Engineer",
-    "Frontend Developer",
+    "Senior Full Stack Engineer",
+    "Full Stack Developer",
     "React Developer",
+    "Node.js",
     "Next.js",
     "TypeScript",
+    "Backend Developer",
+    "APIs",
+    "Microservices",
     "Microfrontends",
     "RAG",
     "Publicis Sapient",
@@ -63,7 +67,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: pageTitle,
     description:
-      "Nearly 6 years building fast, accessible, large-scale frontend applications with React, TypeScript & microfrontends.",
+      "Nearly 6 years building fast, accessible web apps end-to-end — React & TypeScript up front, with Node, APIs, real-time & data/AI behind them.",
     url: "/",
     siteName: `${profile.name} — Portfolio`,
     type: "profile",
@@ -81,7 +85,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: pageTitle,
     description:
-      "Senior Frontend Engineer — React, TypeScript & microfrontends. Nearly 6 years shipping large-scale enterprise UIs.",
+      "Senior Full Stack Engineer — React, Node & TypeScript. Nearly 6 years shipping large-scale enterprise web apps end-to-end.",
     images: [
       {
         url: "/og.png",

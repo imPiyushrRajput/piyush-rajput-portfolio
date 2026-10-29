@@ -2,11 +2,11 @@
 
 export const profile = {
   name: "Piyush Rajput",
-  role: "Senior Frontend Engineer",
+  role: "Senior Full Stack Engineer",
   headline:
-    "Senior Frontend Engineer @ Publicis Sapient — React / TypeScript / Redux Toolkit",
+    "Senior Full Stack Engineer @ Publicis Sapient — React, Node & TypeScript",
   tagline:
-    "I make the web feel fast, clean, and effortless — and maintainable for the engineers who come after me.",
+    "I build the web end-to-end — fast, accessible interfaces and the APIs, real-time, and data behind them.",
   location: "Pune, Maharashtra, India",
   email: "piyushrajput1846@gmail.com",
   openToWork: true,
@@ -19,10 +19,10 @@ export const profile = {
     portfolio: "https://piyushrajput.netlify.app",
   },
   summary: [
-    "Senior Frontend Engineer with nearly 6 years building large-scale React and TypeScript applications for enterprise clients across banking, fintech, healthcare, and manufacturing.",
-    "Currently leading frontend delivery for Lloyds Banking Group at Publicis Sapient in a microfrontend architecture with React, TypeScript, and Redux Toolkit.",
-    "Built the frontend for a production RAG system at CPPIB — an SSE-based streaming chat wiring LangChain, a vector DB, and AWS Athena into the UI, used by 14,000+ employees across 25+ knowledge bases.",
-    "Along the way I've stood up frontends from scratch, co-owned a schema-driven forms library, mentored junior engineers through code review, and pushed Lighthouse scores from the 50s into the 90s.",
+    "Senior Full Stack Engineer with nearly 6 years building large-scale web applications end-to-end for enterprise clients across banking, fintech, healthcare, and manufacturing — deepest in React and TypeScript, with APIs, services, real-time, and data/AI integration behind them.",
+    "Currently delivering for Lloyds Banking Group at Publicis Sapient in a microfrontend architecture with React, TypeScript, and Redux Toolkit, owning payment journeys end-to-end.",
+    "Built and integrated a production RAG system at CPPIB — an SSE streaming chat wiring LangChain, a vector DB, and AWS Athena through to the UI, used by 14,000+ employees across 25+ knowledge bases.",
+    "Along the way I've stood up apps from scratch, built Rails and Node backends, shipped real-time features over WebSockets and SSE, co-owned a schema-driven forms library, mentored engineers through code review, and pushed Lighthouse scores from the 50s into the 90s.",
   ],
 };
 
@@ -49,7 +49,7 @@ export const experiences: Experience[] = [
     period: "Jul 2024 – Present",
     meta: "2 yrs 3 mos · Pune, India · Hybrid",
     points: [
-      "Delivered frontend across two enterprise engagements — Knowledge Initiative (CPPIB) and CCP (Lloyds Banking Group) — owning end-to-end delivery on each.",
+      "Delivered across two enterprise engagements — Knowledge Initiative (CPPIB) and CCP (Lloyds Banking Group) — owning end-to-end delivery on each.",
       "Engineered the KI chat interface on Server-Sent Events, rendering tokens as they streamed rather than waiting on full responses — for 14,000+ users querying 100,000+ documents across 25+ knowledge bases.",
       "Architected the CCP payment flow from scratch — discrete Payment, Review, and Success steps with explicit Error, Blocked, and Cancelled states — so colleagues confirm details before committing and every failure path has a defined outcome.",
       "Mentored 2–3 junior engineers through code review, guiding component design, state handling, and testing practices.",
@@ -73,7 +73,7 @@ export const experiences: Experience[] = [
     period: "Nov 2020 – Sep 2023",
     meta: "2 yrs 11 mos · Pune, India · Remote",
     points: [
-      "Shipped production frontends across 3 client products (hospitality, healthcare, fintech), from greenfield setup through ongoing feature work.",
+      "Shipped production web apps across 3 client products (hospitality, healthcare, fintech), from greenfield setup through ongoing feature work.",
       "Developed responsive web applications following Atomic Design and TDD within Agile/Scrum teams.",
       "Improved Lighthouse/PageSpeed scores from the 50s to 90s+ through lazy-loading, asset compression, and deferred non-critical JS.",
     ],
@@ -98,7 +98,7 @@ export const projects: Project[] = [
     period: "Jul 2025 – Present",
     org: "Publicis Sapient · Lloyds Banking Group",
     description:
-      "An internal platform used daily by branch staff and contact center agents at Lloyds Banking Group, where each journey is deployed as an independent microfrontend. Owned the Profile, Make Payments, and Pending Payments journeys on it, built with the internal component library. Architected the multi-step payment flow end-to-end from scratch — Payment, Review, and Success steps plus explicit Error, Blocked, and Cancelled states — so colleagues confirm details before committing, with every failure path handled rather than a dead end. Implemented the Pending Payments view (filtering, sorting, and search across up to 100 records, kept responsive via pagination), managed state and data fetching with Redux Toolkit and RTK Query, and wrote unit and integration tests alongside QE's Playwright/Cucumber coverage.",
+      "An internal platform used daily by branch staff and contact center agents at Lloyds Banking Group, where each journey is deployed as an independent microfrontend. Owned the Profile, Make Payments, and Pending Payments journeys on it, built with the internal component library. Architected the multi-step payment flow end-to-end from scratch — Payment, Review, and Success steps plus explicit Error, Blocked, and Cancelled states — so colleagues confirm details before committing, with every failure path handled rather than a dead end. Implemented the Pending Payments view (filtering, sorting, and search across up to 100 records, kept responsive via pagination), managed state and data fetching with Redux Toolkit and RTK Query against Java Spring Boot backend services, and wrote unit and integration tests alongside QE's Playwright/Cucumber coverage.",
     tech: [
       "React",
       "TypeScript",
@@ -106,6 +106,8 @@ export const projects: Project[] = [
       "RTK Query",
       "Microfrontends",
       "Internal Component Library",
+      "Java",
+      "Spring Boot",
     ],
     featured: true,
   },
@@ -114,13 +116,14 @@ export const projects: Project[] = [
     period: "Jan 2025 – Jul 2025",
     org: "Publicis Sapient · CPPIB",
     description:
-      "Built a streaming chat UI for CPPIB across 100,000+ private documents — chose Server-Sent Events over request-response polling so tokens render as they're generated instead of waiting on a full completion. Added a keyboard-navigable knowledge-base picker (selector + '/' slash-command) for switching between 25+ isolated knowledge bases (Legal, Finance, HR), a conversation-history sidebar with cursor-based pagination and react-window virtualization, export-to-PDF and share actions (among the most-used features per team feedback), and an admin dashboard surfacing ingestion status and PDF counts. Integrated with RAG backend APIs (LangChain, vector DB, AWS Athena).",
+      "Built a streaming chat UI for CPPIB across 100,000+ private documents — chose Server-Sent Events over request-response polling so tokens render as they're generated instead of waiting on a full completion. Added a keyboard-navigable knowledge-base picker (selector + '/' slash-command) for switching between 25+ isolated knowledge bases (Legal, Finance, HR), a conversation-history sidebar with cursor-based pagination and react-window virtualization, export-to-PDF and share actions (among the most-used features per team feedback), and an admin dashboard surfacing ingestion status and PDF counts. Integrated with the Python RAG backend (LangChain, vector DB, AWS Athena).",
     tech: [
       "React",
       "TypeScript",
       "Redux",
       "REST APIs",
       "SSE",
+      "Python",
       "LangChain",
       "Vector DB",
       "AWS Athena",
@@ -150,11 +153,12 @@ export const projects: Project[] = [
     period: "Nov 2022 – Apr 2023",
     org: "ScaleReal Technologies",
     description:
-      "Hospitality SaaS for hotel operations. Built the Guest Connect messaging feature end-to-end — Twilio SMS plus Action Cable (WebSockets) so hotel staff saw guest messages arrive live without refreshing — and the task-management UI for assigning tasks, tracking status to completion, and handing off open items between shifts. Wrote unit and integration tests across both workflows.",
+      "Hospitality SaaS for hotel operations. Built the Guest Connect messaging feature end-to-end — Twilio SMS plus Action Cable (WebSockets) on a Ruby on Rails backend so hotel staff saw guest messages arrive live without refreshing — and the task-management UI for assigning tasks, tracking status to completion, and handing off open items between shifts. Wrote unit and integration tests across both workflows.",
     tech: [
       "React",
       "Redux",
       "Material UI",
+      "Ruby on Rails",
       "Twilio",
       "Action Cable (WebSockets)",
       "Jest",
@@ -175,6 +179,8 @@ export const projects: Project[] = [
       "Redux",
       "Axios",
       "REST APIs",
+      "Kotlin",
+      "PostgreSQL",
       "Nivo",
       "styled-components",
       "Jest",
@@ -194,6 +200,8 @@ export const projects: Project[] = [
       "GraphQL",
       "Apollo Client",
       "Redux",
+      "Python",
+      "PostgreSQL",
       "Ant Design",
       "styled-components",
     ],
@@ -226,7 +234,7 @@ export const projects: Project[] = [
     org: "ScaleReal Technologies",
     description:
       "Curated learning platform migrated from bare-metal servers to AWS, integrated with the OpenEdx LMS.",
-    tech: ["JavaScript", "Ruby on Rails", "MongoDB"],
+    tech: ["JavaScript", "Ruby on Rails"],
     link: "https://www.mysustainonline.com",
   },
   {
@@ -383,8 +391,9 @@ export const certifications: Certification[] = [
 ];
 
 export const skillGroups: { title: string; items: string[] }[] = [
-  // Ordered by importance for a senior frontend engineer: core language and
-  // framework skills first, then supporting concerns, tooling last.
+  // Ordered for a senior full-stack engineer: core languages and frontend
+  // frameworks first (the deepest strength), then backend / APIs / data, then
+  // the remaining frontend concerns, with tooling last.
   {
     title: "Languages",
     items: ["JavaScript", "TypeScript", "HTML", "CSS", "Python"],
@@ -403,8 +412,46 @@ export const skillGroups: { title: string; items: string[] }[] = [
     ],
   },
   {
-    title: "Styling",
-    items: ["styled-components", "CSS-in-JS", "Sass/SCSS", "Responsive Design"],
+    title: "Backend & Mobile",
+    items: [
+      "Java",
+      "Spring Boot",
+      "Kotlin",
+      "Ruby on Rails",
+      "Action Cable",
+      "Node.js",
+      "Express",
+      "Flutter",
+      "Firebase",
+    ],
+  },
+  {
+    title: "APIs & Integration",
+    items: [
+      "REST APIs",
+      "GraphQL",
+      "Apollo Client",
+      "Axios",
+      "Server-Sent Events (SSE)",
+      "WebSockets",
+      "JWT",
+      "Twilio",
+    ],
+  },
+  {
+    title: "Databases",
+    items: ["PostgreSQL", "Firestore"],
+  },
+  {
+    title: "Cloud & DevOps",
+    items: [
+      "AWS EC2",
+      "AWS S3",
+      "AWS Amplify",
+      "AWS Route 53",
+      "Harness",
+      "GitHub Actions CI/CD",
+    ],
   },
   {
     title: "State & Data",
@@ -433,6 +480,14 @@ export const skillGroups: { title: string; items: string[] }[] = [
     ],
   },
   {
+    title: "RAG / AI",
+    items: ["LangChain", "Vector DBs", "Prompt Engineering", "AWS Athena"],
+  },
+  {
+    title: "Styling",
+    items: ["styled-components", "CSS-in-JS", "Sass/SCSS", "Responsive Design"],
+  },
+  {
     title: "Forms & Validation",
     items: ["React Hook Form", "Zod", "Yup", "JSON Schema"],
   },
@@ -440,6 +495,7 @@ export const skillGroups: { title: string; items: string[] }[] = [
     title: "Architecture & Design Systems",
     items: [
       "Microfrontends",
+      "Microservices",
       "Module Federation",
       "Design Systems",
       "Component Libraries",
@@ -485,43 +541,10 @@ export const skillGroups: { title: string; items: string[] }[] = [
     ],
   },
   {
-    title: "APIs & Integration",
-    items: [
-      "REST APIs",
-      "GraphQL",
-      "Apollo Client",
-      "Axios",
-      "Server-Sent Events (SSE)",
-      "WebSockets",
-      "JWT",
-      "Twilio",
-    ],
-  },
-  {
-    title: "RAG / AI",
-    items: ["LangChain", "Vector DBs", "Prompt Engineering", "AWS Athena"],
-  },
-  {
-    title: "Backend & Mobile",
-    items: [
-      "Node.js",
-      "Express",
-      "Ruby on Rails",
-      "Action Cable",
-      "Flutter",
-      "Firebase",
-    ],
-  },
-  {
-    title: "Databases",
-    items: ["MongoDB", "Firestore"],
-  },
-  {
     title: "Tools & Workflow",
     items: [
       "Git",
       "GitHub",
-      "GitHub Actions CI/CD",
       "GitLab",
       "Webpack",
       "Vite",
