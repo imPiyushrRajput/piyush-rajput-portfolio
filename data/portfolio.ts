@@ -554,6 +554,13 @@ export type Recommendation = {
 
 export const recommendations: Recommendation[] = [
   {
+    name: "Shreyas Patil",
+    title: "Senior Android Engineer @ Deliveroo · Google Developer Expert (Android)",
+    date: "Oct 2026",
+    quote:
+      "Piyush is one of the nicest engineers I've worked with, he understands the problems and has ability to develop a scalable solutions for it which also strives for good quality, follows all the industry standards and always have a good quality deliverables. His knowledge of web development is very in depth. He has good leadership qualities as well.",
+  },
+  {
     name: "Abhishek Ghadge",
     title: "Software Engineer",
     date: "May 2024",

@@ -1,15 +1,31 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { motion, useReducedMotion } from "framer-motion";
 import { Container, Section, SectionIntro } from "./primitives";
 import Reveal from "./Reveal";
 import SectionHeader from "./SectionHeader";
-import { recommendations } from "@/data/portfolio";
+import { recommendations, type Recommendation } from "@/data/portfolio";
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+/* Stable, full-width wrapper measured for the column count. */
+const MasonryViewport = styled.div`
+  width: 100%;
+`;
+
+/* Masonry: fixed-width columns filled round-robin, so cards read
+   left-to-right while keeping their natural heights. */
+const Masonry = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+`;
+
+const MasonryCol = styled.div`
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 `;
 
@@ -85,14 +101,41 @@ const initials = (name: string) =>
 
 export default function Recommendations() {
   const reduce = useReducedMotion();
-  const item = {
-    hidden: { opacity: 0, y: reduce ? 0 : 18 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
-    },
+
+  // Responsive column count for the masonry.
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [cols, setCols] = useState(3);
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const compute = () => {
+      const colW = 340;
+      const gap = 20;
+      setCols(Math.max(1, Math.floor((el.clientWidth + gap) / (colW + gap))));
+    };
+    compute();
+    const ro = new ResizeObserver(compute);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Newest first — parse "Mon YYYY" robustly by prepending a day.
+  const toTime = (d: string) => {
+    const t = Date.parse(`1 ${d}`);
+    return Number.isNaN(t) ? 0 : t;
   };
+  const sorted = [...recommendations].sort(
+    (a, b) => toTime(b.date) - toTime(a.date)
+  );
+
+  // Distribute round-robin so cards read left-to-right, top-to-bottom.
+  const columns: { rec: Recommendation; index: number }[][] = Array.from(
+    { length: cols },
+    () => []
+  );
+  sorted.forEach((rec, index) => {
+    columns[index % cols].push({ rec, index });
+  });
 
   return (
     <Section id="recommendations">
@@ -104,30 +147,37 @@ export default function Recommendations() {
           </SectionIntro>
         </Reveal>
 
-        <Grid
-          as={motion.div}
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.08 } },
-          }}
-        >
-          {recommendations.map((rec) => (
-            <Quote key={rec.name} variants={item}>
-              <Text>{rec.quote}</Text>
-              <Cite>
-                <Avatar aria-hidden="true">{initials(rec.name)}</Avatar>
-                <Person>
-                  <strong>{rec.name}</strong>
-                  <span>
-                    {rec.title} · {rec.date}
-                  </span>
-                </Person>
-              </Cite>
-            </Quote>
-          ))}
-        </Grid>
+        <MasonryViewport ref={wrapRef}>
+          <Masonry>
+            {columns.map((col, ci) => (
+              <MasonryCol key={ci}>
+                {col.map(({ rec, index }) => (
+                  <Quote
+                    key={rec.name}
+                    initial={{ opacity: 0, y: reduce ? 0 : 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.45,
+                      ease: [0.22, 1, 0.36, 1],
+                      delay: reduce ? 0 : Math.min(index * 0.06, 0.4),
+                    }}
+                  >
+                    <Text>{rec.quote}</Text>
+                    <Cite>
+                      <Avatar aria-hidden="true">{initials(rec.name)}</Avatar>
+                      <Person>
+                        <strong>{rec.name}</strong>
+                        <span>
+                          {rec.title} · {rec.date}
+                        </span>
+                      </Person>
+                    </Cite>
+                  </Quote>
+                ))}
+              </MasonryCol>
+            ))}
+          </Masonry>
+        </MasonryViewport>
       </Container>
     </Section>
   );
